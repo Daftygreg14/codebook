@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "spec_helper"
 require_relative "../../../mastering_ruby_closures/chapter_2/exercise_2"
 
 RSpec.describe "Exercise 2" do
