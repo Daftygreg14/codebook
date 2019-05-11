@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "../../../mastering_ruby_closures/chapter_3/exercise_2"
+require "spec_helper"
+require_relative "../../../lib/chapter_3/exercise_2"
 
 RSpec.describe "Exercise 3" do
   it "instantiate class" do

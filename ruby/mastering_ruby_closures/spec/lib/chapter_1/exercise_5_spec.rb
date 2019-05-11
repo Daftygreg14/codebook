@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../mastering_ruby_closures/chapter_1/exercise_5"
+require_relative "../../../lib/chapter_1/exercise_5"
 
-RSpec.describe "Exercise 3" do
+RSpec.describe "Exercise 5" do
   it "reduce" do
     args = [1, 2, 3, 4, 5]
     function = -> (x, acc) { acc << x * 2 }

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "../../../mastering_ruby_closures/chapter_2/exercise_3"
+require "spec_helper"
+require_relative "../../../lib/chapter_2/exercise_3"
 
-RSpec.describe "my file" do
+RSpec.describe "Exercise 3" do
   it "works like map with strings" do
     path = File.expand_path("spec/fixtures/test.txt")
     letters = []

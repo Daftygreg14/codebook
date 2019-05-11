@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../mastering_ruby_closures/chapter_1/exercise_3"
+require_relative "../../../lib/chapter_1/exercise_3"
 
 RSpec.describe "Exercise 3" do
   it "works with insert" do

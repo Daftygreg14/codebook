@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "../../../mastering_ruby_closures/chapter_2/exercise_4"
+require "spec_helper"
+require_relative "../../../lib/chapter_2/exercise_4"
 
-RSpec.describe "my active record schema" do
+RSpec.describe "Exercise 4" do
   it "works like map with strings" do
 
     table = ActiveRecord::Schema.define(1) do ||
