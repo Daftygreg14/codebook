@@ -1,40 +1,64 @@
 #!/usr/bin/env ruby
 
-def prepare_input(n)
-  whites = [:white] * n
-  blacks = n.odd? ? [:black] * n : [:black] * (n + 1)
-  whites + blacks
-end
+class Solution
+  attr_reader :invariant_checks, :invariant_checks_succeeded
 
-def fetch_sample(set)
-  set.delete_at(rand(set.size))
-end
+  def initialize(input_size)
+    @invariant_checks = 0
+    @invariant_checks_succeeded = 0
+    @balls = prepare_balls(input_size)
+  end
 
-def solution(input)
-  raise StandardError if !input.filter { |el| el.eql?(:black) }.size.odd?
-  do_solution(input)
-end
+  def run
+    raise StandardError unless balls_num_is_odd?
 
-def do_solution(input)
-  return input.first if input.size <= 1
+    do_solution
+  end
 
-  # Drops two samples from array
-  sample_1 = fetch_sample(input)
-  sample_2 = fetch_sample(input)
+  private
 
-  # Recursion
-  if sample_1 == sample_2
-    do_solution(input)
-  else
-    new_input = input << :black
-    do_solution(new_input)
+  def prepare_balls(n)
+    whites = [:white] * n
+    blacks = n.odd? ? [:black] * n : [:black] * (n + 1)
+    whites + blacks
+  end
+
+  def do_solution
+    return @balls.first if @balls.size <= 1
+    invariant_check
+
+    # Drops two samples from array
+    sample_1 = fetch_sample
+    sample_2 = fetch_sample
+
+    # Recursion
+    if sample_1 == sample_2
+      do_solution
+    else
+      @balls.push(:black)
+      do_solution
+    end
+  end
+
+  def fetch_sample
+    idx = rand(@balls.size)
+    @balls.delete_at(idx)
+  end
+
+  def invariant_check
+    @invariant_checks += 1
+    @invariant_checks_succeeded += 1 if balls_num_is_odd?
+  end
+
+  def balls_num_is_odd?
+    @balls.filter { |el| el.eql?(:black) }.size.odd?
   end
 end
 
-result = (0..1_000).map do |_|
-  m = (n = rand(1_000)).odd? ? n : n + 1
-  input = prepare_input(m)
-  solution(input)
-end.uniq
+m = (n = rand(1_000)).odd? ? n : n + 1
+solution = Solution.new(m)
+result = solution.run()
 
-puts "Values: #{result.inspect}"
+puts "Result: #{result}"
+puts "Invariants Checks: #{solution.invariant_checks}"
+puts "Invariants Checks Succeeded: #{solution.invariant_checks_succeeded}"
