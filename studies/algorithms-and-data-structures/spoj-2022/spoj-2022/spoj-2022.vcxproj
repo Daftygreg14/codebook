@@ -127,8 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="asd_1_1.cpp" />
+    <ClCompile Include="asd_1_2.cpp" />
     <ClCompile Include="asd_1_3.cpp" />
     <ClCompile Include="spoj-2022.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="asd_1_1.h" />
+    <ClInclude Include="asd_1_2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

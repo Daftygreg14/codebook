@@ -45,5 +45,4 @@ int run_asd_1_3()
     std::cout << resultMaxIdx;
 
     return 0;
-    std::cin;
 }
