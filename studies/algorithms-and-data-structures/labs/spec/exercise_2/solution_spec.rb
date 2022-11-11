@@ -9,10 +9,9 @@ RSpec.describe "Exercise2::Solution" do
   # Num of iterations is < 6
   # Num of possible combinations is limited
 
-  1000.times do |n|
-    it "returns 495 - interation #{n}" do
-      number = rand(1..999)
-      solution = Exercise2::Solution.new(number)
+  (1..999).to_a.each do |n|
+    it "returns 495 or 0 - number #{n}" do
+      solution = Exercise2::Solution.new(n)
       result = solution.run
 
       expect(solution.iterations).to be <= 6

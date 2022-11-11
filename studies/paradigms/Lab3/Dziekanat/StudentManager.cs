@@ -11,19 +11,14 @@ namespace Dziekanat
     internal class StudentManager
     {
         private List<Student> studenci;
+        private StudentRepozytorium studentRepo;
 
-        public StudentManager()
+        public StudentManager(StudentRepozytorium repo)
         {
-            studenci = new List<Student>(4);
+            studentRepo = repo;
+            studenci = studentRepo.WczytajStudentow();
         }
 
-        private void LadujDane()
-        {
-            studenci.Add(new Student("Piotr", "Rybarczyk", "Z304", "10117"));
-            studenci.Add(new Student("Adam", "Lepkowski", "Z303", "10116"));
-            studenci.Add(new Student("Krzysztof", "Budzynski", "Z302", "10115"));
-            studenci.Add(new Student("Tomasz", "Dudziec", "Z301", "10114"));
-        }
 
         public int ListaStudentow()
         {
@@ -36,28 +31,54 @@ namespace Dziekanat
                 dane[i] = $"{s.Imie} {s.Nazwisko} {s.Grupa} {s.Indeks}";
             }
             lista.Konfiguruj(dane);
-            return 0;
+            return lista.Wyswietl();
         }
 
         public void EdytujStudenta()
         {
-
+            Console.Clear();
+            Console.WriteLine("********** Edycja Studenta *********");
+            Console.WriteLine("Podaj Numer Indeksu     :"); string nrIndeks = Console.ReadLine();
+            Student student = studenci.Find(s => s.Indeks == nrIndeks);
+            if (student != null)
+            {
+                Console.WriteLine(student.Wyswietl());
+                Console.WriteLine("Nowe Imie            :"); student.Imie = Console.ReadLine();
+                Console.WriteLine("Nowe Nazwisko        :"); student.Nazwisko = Console.ReadLine();
+                Console.WriteLine("Nowa Grupa           :"); student.Grupa = Console.ReadLine();
+            } else
+            {
+                Console.WriteLine("Nie ma takiego studenta");
+                Console.WriteLine("Wcisnij Enter aby szukac ponownie");
+                if (Console.ReadKey().Key == ConsoleKey.Enter)
+                {
+                    EdytujStudenta();
+                }
+            }
         }
 
         public void DodajStudenta()
         {
-            Student newStudent = new Student();
+            Student nowyStudent = new Student();
             Console.Clear();
             Console.WriteLine("********** Dodawanie Studenta *********");
-            Console.WriteLine("Imie            :"); newStudent.Imie = Console.ReadLine();
-            Console.WriteLine("Nazwisko        :"); newStudent.Nazwisko = Console.ReadLine();
-            Console.WriteLine("Grupa           :"); newStudent.Grupa = Console.ReadLine();
-            Console.WriteLine("Index           :"); newStudent.Indeks = Console.ReadLine();
+            Console.WriteLine("Imie            :"); nowyStudent.Imie = Console.ReadLine();
+            Console.WriteLine("Nazwisko        :"); nowyStudent.Nazwisko = Console.ReadLine();
+            Console.WriteLine("Grupa           :"); nowyStudent.Grupa = Console.ReadLine();
+            nowyStudent.Indeks = NowyNumerIndeksu();
+            studenci.Add(nowyStudent);
+        }
+
+        private string NowyNumerIndeksu()
+        {
+            int maxIndex = studenci.Max(s => Int32.Parse(s.Indeks));
+            int nowyNumer = maxIndex + 1;
+            return nowyNumer.ToString();
         }
 
         internal void ZapiszZmiany()
         {
-            throw new NotImplementedException();
+            studenci.ForEach(s => studentRepo.ZapiszStudenta(s));
         }
     }
 }
