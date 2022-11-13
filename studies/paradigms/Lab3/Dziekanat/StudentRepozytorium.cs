@@ -40,6 +40,10 @@ namespace Dziekanat
             return studenci;
         }
 
+        /// <summary>
+        /// TODO: override previous data in name/indeks changed
+        /// </summary>
+        /// <param name="s"></param>
         public void ZapiszStudenta(Student s)
         {
             string[] dane = new string[] { s.Imie, s.Nazwisko, s.Grupa, s.Indeks };

@@ -1,16 +1,18 @@
 module Exercise2
   class Solution
-    attr_reader :numbers, :iterations
+    attr_reader :numbers, :iterations, :calculation_results
 
     def initialize(number, with_print = false)
       @n = number
-      @numbers = [prepare_output_digits(number)]
+      @calculation_results = []
       @iterations = 0
       @with_print = with_print
     end
 
     def run
-      while @n != 495 && @n != 0 do
+      while @n != 495 && @n != 0
+
+        # main loop calculations
         n0 = @n
         min, max = calculate_min_max(@n)
         @n1 = max
@@ -18,17 +20,34 @@ module Exercise2
         @n = @n1 - @n2
         @iterations += 1
 
-        if @with_print
-          puts "#{@iterations}- Number: #{prepare_output_digits(n0)}: #{prepare_output_digits(max)} - #{prepare_output_digits(min)} = #{prepare_output_digits(@n)}"
-        end
-
-        @numbers << prepare_output_digits(@n)
+        # used for debug
+        print_iteration(max, min, n0) if @with_print
+        store_iteration_result
       end
 
       @n
     end
 
     private
+
+    def number_plus_10(n)
+      output = []
+
+      while n < 1000
+        output << n
+        n = n + 10
+      end
+
+      output
+    end
+
+    def store_iteration_result
+      @calculation_results << prepare_output_digits(@n)
+    end
+
+    def print_iteration(max, min, n0)
+      puts "#{@iterations}- Number: #{prepare_output_digits(n0)}: #{prepare_output_digits(max)} - #{prepare_output_digits(min)} = #{prepare_output_digits(@n)}"
+    end
 
     def calculate_min_max(number)
       calculate_permutation(number).minmax
