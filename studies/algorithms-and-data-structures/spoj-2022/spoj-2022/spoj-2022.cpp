@@ -4,10 +4,13 @@
 #include "asd_1_1.h";
 #include "asd_1_2.h";
 #include "asd_1_3.h";
+#include "asd_1_4.h";
+#include "fibo_nums.h";
+#include "mpw3_1f1.h";
 
 int main()
 {
-    run_asd_1_3();
+    runMPW31F1();
 
     std::cin;
     return 0;
