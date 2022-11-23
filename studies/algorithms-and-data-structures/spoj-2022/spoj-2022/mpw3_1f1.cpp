@@ -12,9 +12,9 @@ using matrixType = std::vector<matrixRow>;
 // 1 0 0 
 // 0 1 0
 // 0 0 1
-bool isReflexive(matrixType matrix, int maxNum)
+bool isReflexive(matrixType matrix)
 {
-	for (int rc = 0; rc < maxNum; rc++) {
+	for (int rc = 0; rc < matrix.size(); rc++) {
 		if (matrix[rc][rc] == 0) { return false; }
 	}
 
@@ -24,9 +24,9 @@ bool isReflexive(matrixType matrix, int maxNum)
 // 0 1 1
 // 1 0 1
 // 1 1 0
-bool isIreflexive(matrixType matrix, int maxNum)
+bool isIreflexive(matrixType matrix)
 {
-	for (int rc = 0; rc < maxNum; rc++) {
+	for (int rc = 0; rc < matrix.size(); rc++) {
 		if (matrix[rc][rc]) { return false; };
 	}
 
@@ -36,10 +36,10 @@ bool isIreflexive(matrixType matrix, int maxNum)
 // 0 1 0
 // 1 0 1
 // 0 1 0
-bool isSymmetric(matrixType matrix, int maxNum)
+bool isSymmetric(matrixType matrix)
 {
-	for (int r = 0; r < maxNum - 1; r++) {
-		for (int c = r + 1; c < maxNum; c++) {
+	for (int r = 0; r < matrix.size() - 1; r++) {
+		for (int c = r + 1; c < matrix.size(); c++) {
 			if (matrix[r][c] != matrix[c][r]) { return false; };
 		}
 	}
@@ -50,9 +50,9 @@ bool isSymmetric(matrixType matrix, int maxNum)
 // 0 1 0
 // 0 0 1
 // 1 0 0
-bool isAsymmetric(matrixType matrix, int maxNum) {
-	for (int r = 0; r < maxNum - 1; r++) {
-		for (int c = r + 1; c < maxNum; c++) {
+bool isAsymmetric(matrixType matrix) {
+	for (int r = 0; r < matrix.size() - 1; r++) {
+		for (int c = r + 1; c < matrix.size(); c++) {
 			if (matrix[r][c] && matrix[c][r]) { return false; };
 		}
 	}
@@ -60,23 +60,25 @@ bool isAsymmetric(matrixType matrix, int maxNum) {
 	return true;
 }
 
-bool isTransistive(matrixType matrix, int maxNum) {
-	for (int r = 0; r < maxNum; r++) for (int c = 0; c < maxNum; c++) {
-		int value = 0;
+bool isTransistive(matrixType matrix) {
+	for (int r = 0; r < matrix.size(); r++) {
+		for (int c = 0; c < matrix.size(); c++) {
+			int value = 0;
 
-		for (int k = 0; (!value) && (k < maxNum); k++) {
-			value = matrix[r][k] && matrix[k][c];
-		}
+			for (int k = 0; (!value) && (k < matrix.size()); k++) {
+				value = matrix[r][k] && matrix[k][c];
+			};
 
-		if (matrix[r][c] < value) { return false; };
+			if (matrix[r][c] < value) { return false; };
+		};
 	}
 
 	return true;
 }
 
-bool isConnected(matrixType matrix, int maxNum) {
-	for (int r = 0; r < maxNum - 1; r++) {
-		for (int c = r + 1; c < maxNum; c++) {
+bool isConnected(matrixType matrix) {
+	for (int r = 0; r < matrix.size() - 1; r++) {
+		for (int c = r + 1; c < matrix.size(); c++) {
 			if (!(matrix[r][c] || matrix[c][r])) { return false; };
 		}
 	}
@@ -102,7 +104,7 @@ int main()
 
 	// Build binary matrix
 	// 1 = true, 0 = false
-	int matrixSize = maxNum + 1;
+	int matrixSize = maxNum;
 	matrixType relationMatrix = matrixType(matrixSize);
 
 	// Build matrix with default 0
@@ -120,12 +122,12 @@ int main()
 	}
 
 	// Check binary matrix
-	bool ref = isReflexive(relationMatrix, maxNum);
-	bool iref = isIreflexive(relationMatrix, maxNum);
-	bool sym = isSymmetric(relationMatrix, maxNum);
-	bool asym = isAsymmetric(relationMatrix, maxNum);
-	bool conn = isConnected(relationMatrix, maxNum);
-	bool tran = isTransistive(relationMatrix, maxNum);
+	bool ref = isReflexive(relationMatrix);
+	bool iref = isIreflexive(relationMatrix);
+	bool sym = isSymmetric(relationMatrix);
+	bool asym = isAsymmetric(relationMatrix);
+	bool conn = isConnected(relationMatrix);
+	bool tran = isTransistive(relationMatrix);
 
 	// Print Line One
 	if (ref) { std::cout << "Z" << " "; };
@@ -144,11 +146,11 @@ int main()
 	// Check relation types combinations
 	bool rr = ref && sym && tran;
 	bool rpl = ref && asym && tran && conn;
-	bool rpcz = ref && asym && tran;
+	bool rpcz = !rpl && ref && asym && tran;
 	// Print Line Two
 	if (rr) { std::cout << "RR" << " "; };
 	if (rpl) { std::cout << "RPL" << " "; };
-	if (!rpl && rpcz) { std::cout << "RPCz"; };
+	if (rpcz) { std::cout << "RPCz"; };
 	if (!rr && !rpl && !rpcz) { std::cout << "X"; };
 
 	return 0;
