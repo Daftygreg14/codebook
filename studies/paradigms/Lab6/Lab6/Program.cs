@@ -10,7 +10,7 @@ namespace Lab6
     {
         static void Main(string[] args)
         {
-            Amica piekarnik = new Amica();
+            Bosh piekarnik = new Bosh();
             Kucharz kucharz = new Kucharz();
 
             kucharz.GotujObiad(piekarnik);

@@ -4,6 +4,7 @@
 module Exercise3
   class Solution
     attr_reader :comparisons
+
     def initialize(input)
       @input = input
       @comparisons = 0

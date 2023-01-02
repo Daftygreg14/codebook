@@ -4,16 +4,24 @@
 
 const long moduloVal = 1000000007;
 // Map to keep results. Baisc calculation doesnt work with large numbers
-std::map<long long, long long> results;
+using number = unsigned long long;
+std::map<number, number> results;
 
-long long fibonacciModulo(long long n) {
-	if (n < 3) return 1;
+// Instead of calculating fibonacci number, we already calculate it modulo
+// Memoize results in map ensures no double calculations
+number fibonacciModulo(number n) {
+	if (n < 2) return 1;
 
 	try {
 		return results.at(n);
 	}
 	catch (std::out_of_range) {
-		results[n] = (fibonacciModulo(n - 1) + fibonacciModulo(n - 2)) % moduloVal;
+		number n1 = fibonacciModulo((n + 1) / 2);
+		number n2 = fibonacciModulo(n / 2);
+		number n3 = fibonacciModulo((n - 1) / 2);
+		number n4 = fibonacciModulo((n - 2) / 2);
+
+		results[n] = (n1 * n2 + n3 * n4) % moduloVal;
 		return results[n];
 	};
 }
@@ -25,8 +33,8 @@ int fiboNums() {
 
 	for (short int i = 0; i < testsNumber; i++) {
 		getline(std::cin, value);
-		long long currentNumber = std::stoll(value);
-		long long fibonacciNumber = fibonacciModulo(currentNumber);
+		number currentNumber = std::stoll(value) - 1;
+		number fibonacciNumber = fibonacciModulo(currentNumber);
 
 		std::cout << fibonacciNumber << std::endl;
 	}

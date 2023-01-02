@@ -88,7 +88,7 @@ bool isConnected(matrixType matrix) {
 
 
 
-int main()
+int mpw31f1()
 {
 	int numOne, numTwo;
 	int maxNum = 0;
