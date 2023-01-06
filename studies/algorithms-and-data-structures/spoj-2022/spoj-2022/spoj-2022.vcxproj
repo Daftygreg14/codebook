@@ -137,6 +137,7 @@
     <ClCompile Include="fibo_nums.cpp" />
     <ClCompile Include="mpw3_1f1.cpp" />
     <ClCompile Include="spoj-2022.cpp" />
+    <ClCompile Include="stos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="asd_1_1.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="asd_5_1.h" />
     <ClInclude Include="fibo_nums.h" />
     <ClInclude Include="mpw3_1f1.h" />
+    <ClInclude Include="stos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

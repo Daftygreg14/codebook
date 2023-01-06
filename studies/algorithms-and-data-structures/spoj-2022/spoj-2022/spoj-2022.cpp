@@ -10,10 +10,11 @@
 #include "asd_5_1.h";
 #include "fibo_nums.h";
 #include "mpw3_1f1.h";
+#include "stos.h";
 
 int main()
 {
-    solve51();
+    solveStos();
 
     std::cin;
     return 0;
