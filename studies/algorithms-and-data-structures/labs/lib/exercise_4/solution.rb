@@ -36,10 +36,6 @@ module Exercise4
       @impl.insert_cost
     end
 
-    def transpose_cost
-      @impl.transpose_cost
-    end
-
     def delete_cost
       @impl.delete_cost
     end
@@ -49,11 +45,11 @@ module Exercise4
     end
 
     def cost
-      [search_cost, insert_cost, delete_cost, transpose_cost].sum
+      [search_cost, insert_cost, delete_cost].sum
     end
 
     def cost_details
-      "#{search_cost}, #{insert_cost}, #{delete_cost}, #{transpose_cost}"
+      "#{search_cost}, #{insert_cost}, #{delete_cost}"
     end
 
     def to_a

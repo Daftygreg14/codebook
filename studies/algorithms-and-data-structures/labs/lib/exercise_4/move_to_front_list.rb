@@ -13,7 +13,15 @@ module Exercise4
         current_node = current_node.next
       end
 
-      current_node.nil? ? raise_error : transpose_and_return(previous_node, current_node)
+      if current_node.nil?
+        raise_error
+      else
+        cost = calc_transpose_cost(current_node)
+        result = transpose_and_return(previous_node, current_node)
+        @search_cost += cost if cost >= 0
+
+        result
+      end
     end
 
     private
@@ -28,22 +36,20 @@ module Exercise4
         current_node = current_node.next
       end
 
-      @transpose_cost += size
+      @insert_cost += size
       @head = new_node
     end
 
     def transpose_and_return(previous_node, current_node)
       return current_node if previous_node.nil?
 
-      increase_transpose_cost(current_node)
       previous_node.next = current_node.next
       current_node.next = self.head
       @head = current_node
     end
 
-    def increase_transpose_cost(current_node)
-      idx = self.to_a.find_index(current_node.value)
-      @transpose_cost += idx - 1
+    def calc_transpose_cost(current_node)
+      self.to_a.find_index(current_node.value) - 1
     end
   end
 end

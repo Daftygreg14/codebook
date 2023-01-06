@@ -11,7 +11,6 @@ module Exercise4
       @search_cost = 0
       @insert_cost = 0
       @delete_cost = 0
-      @transpose_cost = 0
     end
 
     def access(search_value)
@@ -64,7 +63,6 @@ module Exercise4
     end
 
     def clear_costs
-      @transpose_cost = 0
       @insert_cost = 0
       @search_cost = 0
       @delete_cost = 0

@@ -16,7 +16,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(0)
         expect(list.insert_cost).to eq(1)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "adds next element to end of list" do
@@ -29,7 +28,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(1)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "raises error when element already in list" do
@@ -52,7 +50,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "returns value from beginning of list" do
@@ -69,7 +66,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "returns element from middle of list" do
@@ -86,7 +82,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(2)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "returns element from end of list" do
@@ -103,7 +98,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(3)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "does not change order of elements" do
@@ -139,7 +133,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes element from beginning of list" do
@@ -153,7 +146,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes element from middle size list" do
@@ -168,7 +160,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(2)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes element from end size list" do
@@ -183,7 +174,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(3)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "raises error when list is empty" do
@@ -210,7 +200,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(0)
         expect(list.insert_cost).to eq(1)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "adds new element to beginning of list" do
@@ -222,9 +211,8 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.to_a).to eq([3, 2, 1])
 
         expect(list.search_cost).to eq(2)
-        expect(list.insert_cost).to eq(1)
+        expect(list.insert_cost).to eq(3)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(2)
       end
 
       it "raises error when element is already in list" do
@@ -247,7 +235,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "returns element from beginning of list" do
@@ -263,7 +250,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "return element from middle of list" do
@@ -279,7 +265,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(2)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "returns element from end of list" do
@@ -292,10 +277,9 @@ RSpec.describe "Exercise4::Solution" do
 
         expect(result.value).to eq(1)
 
-        expect(list.search_cost).to eq(3)
+        expect(list.search_cost).to eq(4)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(0)
-        expect(list.transpose_cost).to eq(1)
       end
 
       it "changes order of elements in list" do
@@ -333,7 +317,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes value from beginning of list" do
@@ -348,7 +331,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(1)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes value from middle of list" do
@@ -364,7 +346,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(2)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "deletes value from end of list" do
@@ -380,7 +361,6 @@ RSpec.describe "Exercise4::Solution" do
         expect(list.search_cost).to eq(3)
         expect(list.insert_cost).to eq(0)
         expect(list.delete_cost).to eq(1)
-        expect(list.transpose_cost).to eq(0)
       end
 
       it "raises error if element is not in list" do
