@@ -77,7 +77,7 @@ namespace TicTacToeCore
             return _board.GetSize();
         }
 
-        public Player FieldValue(int row, int col)
+        public Player GetFieldAssigment(int row, int col)
         {
             return _board.GetField(row, col);
         }

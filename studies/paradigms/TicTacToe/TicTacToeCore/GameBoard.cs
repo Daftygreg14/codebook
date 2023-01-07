@@ -39,9 +39,11 @@ namespace TicTacToeCore
         public bool IsFilled()
         {
             bool isFilled = true;
-            for(int i = 0; i < GetSize(); i++)
-            {
-                if ( GetField(i, i) != null ) { isFilled = false; break; } 
+
+            for(int row = 0; row < GetSize(); row++) {
+                for(int col = 0; col < GetSize(); col++) {
+                    if (GetField(row, col) != null) { isFilled = false; break; }
+                }
             }
             return isFilled;
         }

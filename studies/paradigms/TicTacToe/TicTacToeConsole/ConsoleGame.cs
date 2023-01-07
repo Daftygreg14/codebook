@@ -16,7 +16,6 @@ namespace TicTacToeConsole
         public ConsoleGame()
         {
             _game = new Game();
-
             _gameUI = new ConsoleGameUI(_game);
             _registrationUI = new ConsoleRegistrationUI(_game);
         }
@@ -46,14 +45,15 @@ namespace TicTacToeConsole
                         break;
                     case Game.GameStateEnum.PlayerOneTurn: case Game.GameStateEnum.PlayerTwoTurn:
                         _gameUI.RenderTitle();
-                        _gameUI.RenderBoard(_game);
+                        _gameUI.RenderBoard();
                         _gameUI.PlayTurn();
                         break;
                 }
             }
 
+            Console.Clear();
             _gameUI.RenderTitle();
-            Console.WriteLine("\n");
+            _gameUI.RenderBoard();
             _gameUI.RenderResult();
         }
     }

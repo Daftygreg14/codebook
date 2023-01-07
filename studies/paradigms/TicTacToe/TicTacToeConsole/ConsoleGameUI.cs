@@ -49,13 +49,19 @@ namespace TicTacToeConsole
             }
         }
 
-        public void RenderBoard(Game game)
+        public void RenderBoard()
         {
-            for (int row = 0; row < game.BoardSize(); row++)
+            for (int row = 0; row < _game.BoardSize(); row++)
             {
-                for (int col = 0; col < game.BoardSize(); col++)
+                for (int col = 0; col < _game.BoardSize(); col++)
                 {
-                    Console.Write(displayField(game, row, col));
+                    Player player = _game.GetFieldAssigment(row, col);
+                    string filedValue = fieldValue(player);
+                    ConsoleColor color = fieldColor(player);
+
+                    Console.ForegroundColor = color;
+                    Console.Write(filedValue);
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine();
             }
@@ -64,13 +70,13 @@ namespace TicTacToeConsole
         {
             int colNum = getPosition("kolumne");
             int rowNum = getPosition("wiersz");
-            if (_game.FieldValue(rowNum, colNum) == null)
+            if (_game.GetFieldAssigment(rowNum, colNum) == null)
             {
                 _game.TakeShot(rowNum, colNum);
             }
             else
             {
-                Console.WriteLine("Przykor mi. Pole jest juz zajete");
+                Console.WriteLine("Przykro mi. Pole jest juz zajete");
                 PlayTurn();
             }
         }
@@ -93,22 +99,6 @@ namespace TicTacToeConsole
             }
         }
 
-        private string displayField(Game game, int row, int col)
-        {
-            if (game.FieldValue(row, col) == null)
-            {
-                return ".";
-            }
-            else if (game.FieldValue(row, col) == game.PlayerOne)
-            {
-                return "x";
-            }
-            else
-            {
-                return "o";
-            }
-        }
-
         private int getPosition(string colOrRow)
         {
             Console.WriteLine($"Podaj {colOrRow}: ");
@@ -121,6 +111,37 @@ namespace TicTacToeConsole
             else
             {
                 return posNum - 1;
+            }
+        }
+
+        private string fieldValue(Player player)
+        {
+            if (player == null)
+            {
+                return ".";
+            }
+            else if (player == _game.PlayerOne)
+            {
+                return "x";
+            }
+            else
+            {
+                return "o";
+            }
+        }
+
+        private ConsoleColor fieldColor(Player player) {
+            if(player == null)
+            {
+                return ConsoleColor.White;
+            } 
+            else if (player == _game.PlayerOne)
+            {
+                return ConsoleColor.Green;
+            } 
+            else
+            {
+                return ConsoleColor.Blue;
             }
         }
     }
