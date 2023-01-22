@@ -19,15 +19,9 @@ namespace Dziekanat
             Indeks = indeks;
         }
 
-        public void Zapisz()
+        public string Wyswietl()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Dziekanat";
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-            string[] dane = new string[] { Imie, Nazwisko, Grupa, Indeks };
-            File.WriteAllLines($@"{folder}\{Nazwisko}_{Indeks}.txt", dane);
+            return $"{this.Imie} {this.Nazwisko} {this.Grupa} {this.Indeks}";
         }
     }
 }

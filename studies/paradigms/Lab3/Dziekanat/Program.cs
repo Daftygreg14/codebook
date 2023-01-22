@@ -13,7 +13,8 @@ namespace Dziekanat
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            StudentManager studentManager = new StudentManager();
+            StudentRepozytorium studentRepo = new StudentRepozytorium();
+            StudentManager studentManager = new StudentManager(studentRepo);
 
             menu.Konfiguruj(new string[] { "Lista studentow", "Dodaj studenta", "Edytuj studenta", "Zapisz zmiany", "Zakoncz" });
             int zadanie;

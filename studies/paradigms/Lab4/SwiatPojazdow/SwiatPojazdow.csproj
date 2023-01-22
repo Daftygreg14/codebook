@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1CD3672E-DA8F-4910-BC30-EB737CB10345}</ProjectGuid>
+    <ProjectGuid>{E53211AF-489E-43D9-A55B-B2D859D4052B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Dziekanat</RootNamespace>
-    <AssemblyName>Dziekanat</AssemblyName>
+    <RootNamespace>SwiatPojazdow</RootNamespace>
+    <AssemblyName>SwiatPojazdow</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -45,18 +45,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Student.cs" />
-    <Compile Include="StudentManager.cs" />
-    <Compile Include="StudentRepozytorium.cs" />
+    <Compile Include="Rower.cs" />
+    <Compile Include="Samochod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Rybarczyk.UiTools\Rybarczyk.UiTools.csproj">
-      <Project>{ff73ee38-5e3e-4251-b113-472037849d2f}</Project>
-      <Name>Rybarczyk.UiTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,19 +11,14 @@ namespace Dziekanat
     internal class StudentManager
     {
         private List<Student> studenci;
+        private StudentRepozytorium studentRepo;
 
-        public StudentManager()
+        public StudentManager(StudentRepozytorium repo)
         {
-            studenci = new List<Student>(4);
+            studentRepo = repo;
+            studenci = studentRepo.WczytajStudentow();
         }
 
-        private void LadujDane()
-        {
-            studenci.Add(new Student("Piotr", "Rybarczyk", "Z304", "10117"));
-            studenci.Add(new Student("Adam", "Lepkowski", "Z303", "10116"));
-            studenci.Add(new Student("Krzysztof", "Budzynski", "Z302", "10115"));
-            studenci.Add(new Student("Tomasz", "Dudziec", "Z301", "10114"));
-        }
 
         public int ListaStudentow()
         {
@@ -36,28 +31,54 @@ namespace Dziekanat
                 dane[i] = $"{s.Imie} {s.Nazwisko} {s.Grupa} {s.Indeks}";
             }
             lista.Konfiguruj(dane);
-            return 0;
+            return lista.Wyswietl();
         }
 
         public void EdytujStudenta()
         {
+            int nrStudenta = ListaStudentow();
+            Student student = studenci[nrStudenta];
+            Console.Clear();
+            Console.Write($"Imie     ({student.Imie})           :"); student.Imie = zmianaJakNiePuste(student.Imie);
+            Console.Write($"Nazwisko ({student.Nazwisko})       :"); student.Nazwisko = zmianaJakNiePuste(student.Nazwisko);
+            Console.Write($"Grupa    ({student.Grupa})          :"); student.Grupa = zmianaJakNiePuste(student.Grupa);
+            Console.Write($"Indeks   ({student.Indeks})         :"); student.Indeks = zmianaJakNiePuste(student.Indeks);
+        }
 
+        private string zmianaJakNiePuste(string staraWartosc)
+        {
+            string nowaWartosc = Console.ReadLine();
+            if (nowaWartosc != "")
+            {
+                return nowaWartosc;
+            } else
+            {
+                return staraWartosc;
+            }
         }
 
         public void DodajStudenta()
         {
-            Student newStudent = new Student();
+            Student nowyStudent = new Student();
             Console.Clear();
             Console.WriteLine("********** Dodawanie Studenta *********");
-            Console.WriteLine("Imie            :"); newStudent.Imie = Console.ReadLine();
-            Console.WriteLine("Nazwisko        :"); newStudent.Nazwisko = Console.ReadLine();
-            Console.WriteLine("Grupa           :"); newStudent.Grupa = Console.ReadLine();
-            Console.WriteLine("Index           :"); newStudent.Indeks = Console.ReadLine();
+            Console.Write("Imie            :"); nowyStudent.Imie = Console.ReadLine();
+            Console.Write("Nazwisko        :"); nowyStudent.Nazwisko = Console.ReadLine();
+            Console.Write("Grupa           :"); nowyStudent.Grupa = Console.ReadLine();
+            nowyStudent.Indeks = NowyNumerIndeksu();
+            studenci.Add(nowyStudent);
+        }
+
+        private string NowyNumerIndeksu()
+        {
+            int maxIndex = studenci.Max(s => Int32.Parse(s.Indeks));
+            int nowyNumer = maxIndex + 1;
+            return nowyNumer.ToString();
         }
 
         internal void ZapiszZmiany()
         {
-            throw new NotImplementedException();
+            studenci.ForEach(s => studentRepo.ZapiszStudenta(s));
         }
     }
 }
