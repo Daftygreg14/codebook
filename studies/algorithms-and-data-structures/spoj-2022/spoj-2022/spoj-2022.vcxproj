@@ -133,9 +133,13 @@
     <ClCompile Include="asd_1_4.cpp" />
     <ClCompile Include="asd_2_2.cpp" />
     <ClCompile Include="asd_4_1.cpp" />
+    <ClCompile Include="asd_4_2.cpp" />
     <ClCompile Include="asd_5_1.cpp" />
+    <ClCompile Include="asd_5_2.cpp" />
+    <ClCompile Include="asd_5_3.cpp" />
     <ClCompile Include="fibo_nums.cpp" />
     <ClCompile Include="mpw3_1f1.cpp" />
+    <ClCompile Include="solve_6_1.cpp" />
     <ClCompile Include="spoj-2022.cpp" />
     <ClCompile Include="stos.cpp" />
   </ItemGroup>
@@ -145,7 +149,11 @@
     <ClInclude Include="asd_1_4.h" />
     <ClInclude Include="asd_2_2.h" />
     <ClInclude Include="asd_4_1.h" />
+    <ClInclude Include="asd_4_2.h" />
     <ClInclude Include="asd_5_1.h" />
+    <ClInclude Include="asd_5_2.h" />
+    <ClInclude Include="asd_5_3.h" />
+    <ClInclude Include="asd_6_1.h" />
     <ClInclude Include="fibo_nums.h" />
     <ClInclude Include="mpw3_1f1.h" />
     <ClInclude Include="stos.h" />

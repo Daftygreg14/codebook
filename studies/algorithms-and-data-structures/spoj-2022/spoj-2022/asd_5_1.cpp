@@ -36,7 +36,6 @@ void quickSort(numbersVector& numbers, int startIdx, int endIdx)
 
     if (startIdx < j) quickSort(numbers, startIdx, j);
     if (endIdx > i) quickSort(numbers, i, endIdx);
-
 }
 
 int solve51() {
