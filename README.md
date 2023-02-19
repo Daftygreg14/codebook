@@ -1,14 +1,11 @@
 # codebook
-Just a repo with coding challenges, exercises and this type of stuff. 
+Just a repo with coding challenges, exercises and this type of stuff.
 
-Lab 3 q3 & 4
-- Komunikacja bezposrednia - brak utraty infomracji z otrzymanych i przeslanych danych. 
-- Komunikacj bezpisrednia, broadcast odpytuje o adresy i poznalezineiu wysyla dane - domena kolizyjna
+## Languages
+Part of repo storing different exercises about languages. It could be books, online challenges etc.
 
-Lab 3 q 7
-- Warstwa fizyczna
-- W hub mamy csma/cd po drucie colision detected
-- W access point mamy csma/ca colision avoidance
+## Algorithms
+Languages is whatever I'd like to use, core here is materials & exercises about algorithms itself.
 
-Lab 17
-ping cmp protokul
+## Studies
+Exercises I've done for WWSI studies. 
