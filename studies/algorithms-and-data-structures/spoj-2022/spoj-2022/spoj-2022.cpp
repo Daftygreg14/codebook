@@ -11,14 +11,16 @@
 #include "asd_5_1.h";
 #include "asd_5_2.h";
 #include "asd_5_3.h";
-#include "asd_6_1.h"
+#include "asd_6_1.h";
+#include "asd_6_2.h";
+#include "asd_7_2.h";
 #include "fibo_nums.h";
 #include "mpw3_1f1.h";
 #include "stos.h";
 
 int main()
 {
-    solve61();
+    solve72();
 
     std::cin;
     return 0;

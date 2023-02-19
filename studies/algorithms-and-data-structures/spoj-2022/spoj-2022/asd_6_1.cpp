@@ -74,7 +74,7 @@ void traverseGraph(Graph& graph) {
 	}
 }
 
-int main() {
+int solve61() {
 	int dataSetsNum;
 	DataSets dataSets;
 	std::cin >> dataSetsNum;
