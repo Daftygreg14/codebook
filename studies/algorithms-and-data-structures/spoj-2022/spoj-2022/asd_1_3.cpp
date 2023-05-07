@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-int run_asd_1_3()
+int solve13()
 {
     std::string value;
     signed int resultMax;

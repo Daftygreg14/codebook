@@ -1,0 +1,35 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (7.0.4.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    concurrent-ruby (1.2.2)
+    faker (3.2.0)
+      i18n (>= 1.8.11, < 2)
+    i18n (1.13.0)
+      concurrent-ruby (~> 1.0)
+    minitest (5.18.0)
+    rufo (0.16.1)
+    sequel (5.68.0)
+    tiny_tds (2.1.5)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+
+PLATFORMS
+  x64-mingw-ucrt
+
+DEPENDENCIES
+  activesupport
+  faker
+  rufo
+  sequel
+  tiny_tds
+
+RUBY VERSION
+   ruby 3.2.2p53
+
+BUNDLED WITH
+   2.3.7

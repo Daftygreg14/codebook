@@ -1,2 +1,2 @@
 #pragma once
-int runMPW31F1();
+int solveMPW31f1();

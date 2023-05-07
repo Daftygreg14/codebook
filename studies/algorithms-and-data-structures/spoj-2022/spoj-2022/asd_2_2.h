@@ -1,2 +1,2 @@
 #pragma once
-int findRoute();
+int solve22();
