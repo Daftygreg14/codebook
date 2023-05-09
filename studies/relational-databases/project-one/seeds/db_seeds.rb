@@ -19,6 +19,7 @@ require_relative "./12_location_table_seeds"
 require_relative "./13_table_reservations_seeds"
 require_relative "./14_order_seeds"
 require_relative "./15_delivery_seeds"
+require_relative "./16_dish_product_seeds"
 
 connection_options = {
   adapter: "tinytds",
@@ -71,6 +72,8 @@ begin
     puts "Order seeds complete."
     DeliverySeeds.new(DB).run
     puts "Delivery seeds complete."
+    DishProductsSeeds.new(DB).run
+    puts "Dish products seeds complete."
   end
 ensure
   DB.disconnect
