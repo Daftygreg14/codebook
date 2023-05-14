@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePlatformUI", "GamePlatformUI\GamePlatformUI.csproj", "{688B6770-9A92-493C-BFD0-01A761E109D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamePlatformUI", "GamePlatformUI\GamePlatformUI.csproj", "{688B6770-9A92-493C-BFD0-01A761E109D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementy rozwiązania", "Elementy rozwiązania", "{ED084F99-BAFF-4E2C-97AA-E27FF20C7733}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
