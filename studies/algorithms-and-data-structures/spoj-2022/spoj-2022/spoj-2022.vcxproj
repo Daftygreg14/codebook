@@ -131,6 +131,7 @@
     <ClCompile Include="asd_1_2.cpp" />
     <ClCompile Include="asd_1_3.cpp" />
     <ClCompile Include="asd_1_4.cpp" />
+    <ClCompile Include="asd_2_1.cpp" />
     <ClCompile Include="asd_2_2.cpp" />
     <ClCompile Include="asd_4_1.cpp" />
     <ClCompile Include="asd_4_2.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="asd_1_1.h" />
     <ClInclude Include="asd_1_2.h" />
     <ClInclude Include="asd_1_4.h" />
+    <ClInclude Include="asd_2_1.h" />
     <ClInclude Include="asd_2_2.h" />
     <ClInclude Include="asd_4_1.h" />
     <ClInclude Include="asd_4_2.h" />

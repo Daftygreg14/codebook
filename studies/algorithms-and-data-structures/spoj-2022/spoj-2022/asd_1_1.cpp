@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-int run_asd_1_1()
+int solve11()
 {
     std::string value;
     int result = 0;

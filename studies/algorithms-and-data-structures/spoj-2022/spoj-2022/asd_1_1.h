@@ -1,3 +1,3 @@
 #pragma once
 
-int run_asd_1_1();
+int solve11();

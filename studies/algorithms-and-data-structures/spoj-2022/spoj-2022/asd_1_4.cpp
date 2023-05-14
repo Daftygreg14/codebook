@@ -77,7 +77,7 @@ matrixType multipleMatrices(const matrixType& matrixOne, const matrixType& matri
 }
 
 
-int runASD1_4()
+int solve14()
 {
     // base variables
     std::string value;
