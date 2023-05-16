@@ -4,6 +4,7 @@ using GamePlatformUI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GamePlatformUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516193132_UpdateGameSchema")]
+    partial class UpdateGameSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +43,9 @@ namespace GamePlatformUI.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("GameId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -75,6 +81,8 @@ namespace GamePlatformUI.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GameId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -308,10 +316,17 @@ namespace GamePlatformUI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GamePlatformUI.Areas.Identity.Data.User", b =>
+                {
+                    b.HasOne("GamePlatformUI.Models.Game", null)
+                        .WithMany("Players")
+                        .HasForeignKey("GameId");
+                });
+
             modelBuilder.Entity("GamePlatformUI.Models.GamePlayer", b =>
                 {
                     b.HasOne("GamePlatformUI.Models.Game", "Game")
-                        .WithMany("GamePlayers")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -380,7 +395,7 @@ namespace GamePlatformUI.Migrations
 
             modelBuilder.Entity("GamePlatformUI.Models.Game", b =>
                 {
-                    b.Navigation("GamePlayers");
+                    b.Navigation("Players");
                 });
 #pragma warning restore 612, 618
         }

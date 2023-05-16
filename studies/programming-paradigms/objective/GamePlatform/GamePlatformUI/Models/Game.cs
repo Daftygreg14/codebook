@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GamePlatformUI.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 
@@ -12,10 +13,15 @@ namespace GamePlatformUI.Models
         [ForeignKey("GameType")]
         public string GameType { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public string GameState { get; set; }
+        public string GameBoard { get; set; }
 
         [DataType(DataType.DateTime)]
+        public DateTime CreatedAt { get; set; }
+        
+        [DataType(DataType.DateTime)]
         public DateTime UpdatedAt { get; set; }
+
+        public ICollection<GamePlayer> GamePlayers { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using GamePlatformUI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GamePlatformUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516191631_CreateGamePlayerSchema")]
+    partial class CreateGamePlayerSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,14 +101,6 @@ namespace GamePlatformUI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("GameBoard")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GameState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("GameType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -118,36 +113,6 @@ namespace GamePlatformUI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
-                });
-
-            modelBuilder.Entity("GamePlatformUI.Models.GamePlayer", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("GameId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("PlayerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("GamePlayers");
                 });
 
             modelBuilder.Entity("GamePlatformUI.Models.GameType", b =>
@@ -308,25 +273,6 @@ namespace GamePlatformUI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GamePlatformUI.Models.GamePlayer", b =>
-                {
-                    b.HasOne("GamePlatformUI.Models.Game", "Game")
-                        .WithMany("GamePlayers")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GamePlatformUI.Areas.Identity.Data.User", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Player");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -376,11 +322,6 @@ namespace GamePlatformUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GamePlatformUI.Models.Game", b =>
-                {
-                    b.Navigation("GamePlayers");
                 });
 #pragma warning restore 612, 618
         }

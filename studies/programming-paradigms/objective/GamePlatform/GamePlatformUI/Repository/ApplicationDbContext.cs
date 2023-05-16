@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<GameType> GameTypes { get; set; }
     public DbSet<Game> Games { get; set; }
+    public DbSet<GamePlayer> GamePlayers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

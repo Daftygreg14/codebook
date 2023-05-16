@@ -22,7 +22,8 @@ namespace GamePlatformUI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Game", x => x.Id);
+                    table.PrimaryKey("PK_Games", x => x.Id);
+                    table.ForeignKey("FK_Games_GameTypes_GameType", x => x.GameType, "GameTypes", "Type");
                 });
         }
 
