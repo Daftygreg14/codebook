@@ -29,7 +29,7 @@ public class GameTypeRepositoryTests : IDisposable
     }
 
     [Fact]
-    public void AddGameTypeAsync_ShouldAddGameType()
+    public void AddGameType_ShouldAddGameType()
     {
         // [GIVEN] A new game type
         using var context = new ApplicationDbContext(_options);
@@ -53,7 +53,7 @@ public class GameTypeRepositoryTests : IDisposable
     }
 
     [Fact]
-    public void GetGameTypeAsync_ShouldUpdateType()
+    public void GetGameType_ShouldUpdateType()
     {
         // [GIVEN] A new game type
         using var context = new ApplicationDbContext(_options);
@@ -76,29 +76,5 @@ public class GameTypeRepositoryTests : IDisposable
         Assert.NotNull(result);
         Assert.Equal("TestType", result.Type);
         Assert.False(result.Available);
-    }
-
-    [Fact]
-    public void GetGameTypeAsync_ShouldDeleteType()
-    {
-        // [GIVEN] A new game type
-        using var context = new ApplicationDbContext(_options);
-        var gameType = new GameType
-        {
-            Type = "TestType",
-            Available = true,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        context.GameTypes.Add(gameType);
-        context.SaveChanges();
-
-        // [WHEN] Get game type
-        var repo = new GameTypeRepository(context);
-        repo.DeleteGameType("TestType");
-
-        // [THEN] Verify that the game type was added
-        var result = context.GameTypes.Find("TestType");
-        Assert.Null(result);
     }
 }

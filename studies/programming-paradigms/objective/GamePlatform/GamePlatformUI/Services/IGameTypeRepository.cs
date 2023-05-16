@@ -8,6 +8,5 @@ namespace GamePlatformUI.Services
         GameType? GetGameType(string type);
         GameType AddGameType(GameType gameType);
         GameType UpdateGameType(GameType gameType);
-        void DeleteGameType(string type);
     }
 }

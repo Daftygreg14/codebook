@@ -11,6 +11,7 @@ string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRI
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IGameTypeRepository, GameTypeRepository>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 
 // Identity
 builder.Services.

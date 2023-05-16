@@ -36,15 +36,5 @@ namespace GamePlatformUI.Repository
             _db.SaveChanges();
             return gameType;
         }
-
-        public void DeleteGameType(string type)
-        {
-            GameType gameType = _db.GameTypes.Find(type);
-            if (gameType != null)
-            {
-                _db.GameTypes.Remove(gameType);
-                _db.SaveChanges();
-            }
-        }
     }
 }
