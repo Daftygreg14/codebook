@@ -15,7 +15,7 @@
       "applicationUrl": "http://localhost:5280",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "Server=localhost;Database=master;User=sa;Password=example_123;TrustServerCertificate=true;"
+        "DB_CONNECTION_STRING": "Server=localhost;Database=GamePlatform;User=sa;Password=example_123;TrustServerCertificate=true;"
       }
     },
     "IIS Express": {

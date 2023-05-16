@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Repository;
+using GamePlatformUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
@@ -9,6 +10,9 @@ string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRI
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IGameTypeRepository, GameTypeRepository>();
+
+// Identity
 builder.Services.
     AddDefaultIdentity<User>(options => {
         options.SignIn.RequireConfirmedAccount = false;
