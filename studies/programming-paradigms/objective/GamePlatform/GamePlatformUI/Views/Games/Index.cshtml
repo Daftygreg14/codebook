@@ -1,4 +1,4 @@
-@model IEnumerable<GamePlatformUI.Models.Game>
+@model IEnumerable<GamePlatformUI.Presenters.GamePresenter>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,33 +13,43 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.GameType)
+                @Html.DisplayName("Game Type")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayName("Game State")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                @Html.DisplayName("Host Name")
             </th>
+            <th>
+                @Html.DisplayName("Created At")
+            </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GameType)
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.state)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
+                @Html.DisplayFor(modelItem => item.hostName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                @Html.DisplayFor(modelItem => item.createdAt)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Details</a>
+            </td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@item.id">
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                </form>
             </td>
         </tr>
 }

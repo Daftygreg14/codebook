@@ -14,28 +14,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="GameType" class="control-label"></label>
-                <input asp-for="GameType" class="form-control" />
+                <select asp-for="GameType" asp-items="@(new SelectList(ViewBag.GameTypes, "Type", "Type"))" class="form-control">
+                    <option value="">-- Select Game Type --</option>
+                </select>
                 <span asp-validation-for="GameType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

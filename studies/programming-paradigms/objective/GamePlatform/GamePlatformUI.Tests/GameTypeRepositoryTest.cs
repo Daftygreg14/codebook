@@ -53,6 +53,19 @@ public class GameTypeRepositoryTests : IDisposable
     }
 
     [Fact]
+    public void GetAvailableGameTypes_ShouldReturnAvailableGameTypes()
+    {
+        using var context = new ApplicationDbContext(_options);
+
+        // [THEN] Verify that the game type was added
+        var repo = new GameTypeRepository(context);
+        var result = repo.GetAvailableGameTypes().ToList();
+
+        Assert.NotNull(result);
+        Assert.Single(result);
+    }
+
+    [Fact]
     public void GetGameType_ShouldUpdateType()
     {
         // [GIVEN] A new game type

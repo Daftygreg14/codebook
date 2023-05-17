@@ -1,32 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using GamePlatformUI.Models;
-using GamePlatformUI.Repository;
 using Microsoft.AspNetCore.Identity;
+
+using GamePlatformUI.Models;
+using GamePlatformUI.Services;
+using GamePlatformUI.Areas.Identity.Data;
+using GamePlatformUI.Presenters;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace GamePlatformUI.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly GameRepository _repo;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IGameRepository _gameRepo;
+        private readonly IGameTypeRepository _gameTypeRepo;
+        private readonly UserManager<User> _userManager;
 
-        public GamesController(GameRepository repo, UserManager<IdentityUser> userManager)
+        public GamesController(IGameRepository repo, IGameTypeRepository typeRepo, UserManager<User> userManager)
         {
-            _repo = repo;
+            _gameRepo = repo;
+            _gameTypeRepo = typeRepo;
             _userManager = userManager;
         }
 
         // GET: Games
         public IActionResult Index()
         {
-            return View(_repo.GetGames());
+            var games = _gameRepo.GetGames().Select(game => new GamePresenter(game)).ToList();
+            return View(games);
         }
 
         // GET: Games/Details/5
         public IActionResult Details(long id)
         {
-            var game = _repo.GetGame(id);
+            var game = _gameRepo.GetGame(id);
             if (game == null)
             {
                 return NotFound();
@@ -38,6 +44,7 @@ namespace GamePlatformUI.Controllers
         // GET: Games/Create
         public IActionResult Create()
         {
+            ViewBag.GameTypes = _gameTypeRepo.GetAvailableGameTypes().ToList();
             return View();
         }
 
@@ -45,25 +52,54 @@ namespace GamePlatformUI.Controllers
         // [TODO] Refactor to create GamePlayer in GameRepository
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,GameType,CreatedAt,UpdatedAt")] Game game)
+        public IActionResult Create([Bind("GameType")] Game game)
         {
             string currentUserId = _userManager.GetUserId(User);
 
             if (ModelState.IsValid && currentUserId != null)
             {
-                _repo.AddGame(game, currentUserId);
+                _gameRepo.AddGame(game, currentUserId);
                 return RedirectToAction(nameof(Index));
             }
+            debugModelState();
+            ViewBag.GameTypes = _gameTypeRepo.GetAvailableGameTypes().ToList();
             return View(game);
         }
 
-        // DELETE: Games/Delete/5
-        [HttpDelete, ActionName("Delete")]
+        // POST: Games/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(long id)
+        public IActionResult Delete(long id)
         {
-            _repo.DeleteGame(id);
+            var game = _gameRepo.GetGame(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+            if (game.Host().Id != _userManager.GetUserId(User))
+            {
+                return BadRequest();
+            }
+            _gameRepo.DeleteGame(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        private void debugModelState()
+        {
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
+
+                foreach (var error in errors)
+                {
+                    foreach (var subError in error.Errors)
+                    {
+                        Console.WriteLine($"Key: {error.Key}, Error: {subError.ErrorMessage}");
+                    }
+                }
+            }
         }
     }
 }

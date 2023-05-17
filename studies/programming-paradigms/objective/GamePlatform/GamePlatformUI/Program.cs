@@ -5,7 +5,7 @@ using GamePlatformUI.Repository;
 using GamePlatformUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -20,7 +20,8 @@ builder.Services.
         options.SignIn.RequireConfirmedEmail = false;
         options.SignIn.RequireConfirmedPhoneNumber = false;
     }).
-    AddEntityFrameworkStores<ApplicationDbContext>();
+    AddEntityFrameworkStores<ApplicationDbContext>().
+    AddUserManager<UserManager<User>>();
 
 
 var app = builder.Build();
@@ -39,5 +40,20 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Game routes
+app.MapControllerRoute(
+    name: "GamesIndex",
+    pattern: "Games",
+    defaults: new { controller = "Games", action = "Index" });
+app.MapControllerRoute(
+    name: "GamesCreate",
+    pattern: "Games/Create",
+    defaults: new { controller = "Games", action = "Create" });
+app.MapControllerRoute(
+    name: "GamesDelete",
+    pattern: "Games/Delete/{id}",
+    defaults: new { controller = "Games", action = "Delete" });
+
 app.MapRazorPages();
 app.Run();

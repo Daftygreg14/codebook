@@ -1,6 +1,7 @@
 ﻿using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Models;
 using GamePlatformUI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace GamePlatformUI.Repository
@@ -15,12 +16,12 @@ namespace GamePlatformUI.Repository
 
         public IEnumerable<Game> GetGames()
         {
-            return _db.Games;
+            return _db.Games.Include(g => g.GamePlayers).ThenInclude(gp => gp.Player);
         }
         
         public Game? GetGame(Int64 gameId)
         {
-            return _db.Games.Find(gameId);
+            return _db.Games.Include(g => g.GamePlayers).ThenInclude(gp => gp.Player).FirstOrDefault(g => g.Id == gameId);
         }
 
         public Game AddGame(Game game, string hostId)

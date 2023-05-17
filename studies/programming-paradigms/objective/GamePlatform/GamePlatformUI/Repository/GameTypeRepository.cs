@@ -17,6 +17,11 @@ namespace GamePlatformUI.Repository
             return _db.GameTypes;
         }
 
+        public IEnumerable<GameType> GetAvailableGameTypes()
+        {
+            return _db.GameTypes.Where(gt => gt.Available);
+        }
+        
         public GameType? GetGameType(string type)
         {
             return _db.GameTypes.Find(type);

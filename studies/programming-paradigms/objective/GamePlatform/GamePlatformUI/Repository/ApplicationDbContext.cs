@@ -2,6 +2,8 @@ using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using System.Runtime.Intrinsics.Arm;
 
 namespace GamePlatformUI.Repository;
 
@@ -19,9 +21,40 @@ public class ApplicationDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        
-        // Game Types DB Context
+
+        // Default Properties
         builder.Entity<GameType>().Property(gt => gt.UpdatedAt).ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("GETDATE()");
+        builder.Entity<Game>().Property(g => g.CreatedAt).ValueGeneratedOnAdd().HasDefaultValueSql("GETDATE()");
         builder.Entity<Game>().Property(g => g.UpdatedAt).ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("GETDATE()");
+
+        // Relationships
+        builder.Entity<Game>()
+           .HasMany(g => g.GamePlayers)
+           .WithOne(gp => gp.Game)
+           .HasForeignKey(gp => gp.GameId);
+
+        builder.Entity<User>()
+            .HasMany(u => u.GamePlayers)
+            .WithOne(gp => gp.Player)
+            .HasForeignKey(gp => gp.PlayerId);
+
+        builder.Entity<GameType>().HasData(
+            new GameType
+            {
+                Type = "TicTacToe",
+                Available = true,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            },
+            new GameType
+            {
+                Type = "Battleships",
+                Available = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            }
+        );
     }
+
+
 }

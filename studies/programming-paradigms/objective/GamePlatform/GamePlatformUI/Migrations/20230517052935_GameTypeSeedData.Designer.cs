@@ -4,6 +4,7 @@ using GamePlatformUI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GamePlatformUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230517052935_GameTypeSeedData")]
+    partial class GameTypeSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +99,14 @@ namespace GamePlatformUI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("GameBoard")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GameState")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GameType")
@@ -178,15 +181,15 @@ namespace GamePlatformUI.Migrations
                         {
                             Type = "TicTacToe",
                             Available = true,
-                            CreatedAt = new DateTime(2023, 5, 17, 9, 4, 15, 220, DateTimeKind.Local).AddTicks(7623),
-                            UpdatedAt = new DateTime(2023, 5, 17, 9, 4, 15, 220, DateTimeKind.Local).AddTicks(7689)
+                            CreatedAt = new DateTime(2023, 5, 17, 7, 29, 35, 656, DateTimeKind.Local).AddTicks(3306),
+                            UpdatedAt = new DateTime(2023, 5, 17, 7, 29, 35, 656, DateTimeKind.Local).AddTicks(3376)
                         },
                         new
                         {
                             Type = "Battleships",
-                            Available = false,
-                            CreatedAt = new DateTime(2023, 5, 17, 9, 4, 15, 220, DateTimeKind.Local).AddTicks(7692),
-                            UpdatedAt = new DateTime(2023, 5, 17, 9, 4, 15, 220, DateTimeKind.Local).AddTicks(7693)
+                            Available = true,
+                            CreatedAt = new DateTime(2023, 5, 17, 7, 29, 35, 656, DateTimeKind.Local).AddTicks(3380),
+                            UpdatedAt = new DateTime(2023, 5, 17, 7, 29, 35, 656, DateTimeKind.Local).AddTicks(3381)
                         });
                 });
 
@@ -336,7 +339,7 @@ namespace GamePlatformUI.Migrations
                         .IsRequired();
 
                     b.HasOne("GamePlatformUI.Areas.Identity.Data.User", "Player")
-                        .WithMany("GamePlayers")
+                        .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -395,11 +398,6 @@ namespace GamePlatformUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GamePlatformUI.Areas.Identity.Data.User", b =>
-                {
-                    b.Navigation("GamePlayers");
                 });
 
             modelBuilder.Entity("GamePlatformUI.Models.Game", b =>
