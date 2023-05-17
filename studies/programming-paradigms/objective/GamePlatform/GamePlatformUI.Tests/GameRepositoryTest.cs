@@ -1,3 +1,4 @@
+using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Models;
 using GamePlatformUI.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,14 @@ public class GameRepositoryTest : IDisposable
         };
         context.GameTypes.Add(gameType);
         context.SaveChanges();
+        var user = new User
+        {
+            UserName = "TestUser",
+            Email = "example@example.com",
+            PasswordHash = "TestPassword"
+        };
+        context.Users.Add(user);
+        context.SaveChanges();
 
         // [WHEN] Add new game type
         var game = new Game
@@ -52,16 +61,20 @@ public class GameRepositoryTest : IDisposable
         };
 
         var repo = new GameRepository(context);
-        repo.AddGame(game);
+        repo.AddGame(game, user.Id);
         
         // [THEN] Verify that the game type was added
-        var result = context.Games.Find(game.Id);
-        Assert.NotNull(result);
-        Assert.Equal("TestType", result.GameType);
+        var resultGame = context.Games.Find(game.Id);
+        Assert.NotNull(resultGame);
+        Assert.Equal("TestType", resultGame.GameType);
+
+        var resultGamePlayer = context.GamePlayers.Where(x => x.GameId == game.Id).First();
+        Assert.NotNull(resultGamePlayer);
+        Assert.True(resultGamePlayer.IsHost);
     }
 
     [Fact]
-    public void GetGame_ShouldUpdateType()
+    public void GetGame_ShouldReturnGame()
     {
         // [GIVEN] Regsiter new game with game type
         using var context = new ApplicationDbContext(_options);

@@ -2,16 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using GamePlatformUI.Models;
 using GamePlatformUI.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace GamePlatformUI.Controllers
 {
     public class GamesController : Controller
     {
         private readonly GameRepository _repo;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public GamesController(GameRepository repo)
+        public GamesController(GameRepository repo, UserManager<IdentityUser> userManager)
         {
             _repo = repo;
+            _userManager = userManager;
         }
 
         // GET: Games
@@ -39,13 +42,16 @@ namespace GamePlatformUI.Controllers
         }
 
         // POST: Games/Create
+        // [TODO] Refactor to create GamePlayer in GameRepository
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,GameType,CreatedAt,UpdatedAt")] Game game)
         {
-            if (ModelState.IsValid)
+            string currentUserId = _userManager.GetUserId(User);
+
+            if (ModelState.IsValid && currentUserId != null)
             {
-                _repo.AddGame(game);
+                _repo.AddGame(game, currentUserId);
                 return RedirectToAction(nameof(Index));
             }
             return View(game);

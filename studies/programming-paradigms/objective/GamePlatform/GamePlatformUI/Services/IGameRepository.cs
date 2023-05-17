@@ -1,4 +1,5 @@
 ﻿using GamePlatformUI.Models;
+using GamePlatformUI.Areas.Identity.Data;
 
 namespace GamePlatformUI.Services
 {
@@ -6,7 +7,7 @@ namespace GamePlatformUI.Services
     {
         IEnumerable<Game> GetGames();
         Game GetGame(Int64 gameId);
-        Game AddGame(Game game);
+        Game AddGame(Game game, string hostId);
         void DeleteGame(Int64 type);
     }
 }

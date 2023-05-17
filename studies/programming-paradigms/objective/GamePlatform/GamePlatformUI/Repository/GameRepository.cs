@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Models;
 using GamePlatformUI.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace GamePlatformUI.Repository
 {
@@ -21,22 +22,60 @@ namespace GamePlatformUI.Repository
         {
             return _db.Games.Find(gameId);
         }
-        
-        public Game AddGame(Game game)
+
+        public Game AddGame(Game game, string hostId)
         {
-            _db.Games.Add(game);
-            _db.SaveChanges();
+            using var transaction = _db.Database.BeginTransaction();
+            try
+            {
+                _db.Games.Add(game);
+                _db.SaveChanges();
+
+                var gamePlayer = new GamePlayer
+                {
+                    GameId = game.Id,
+                    PlayerId = hostId,
+                    IsHost = true,
+                };
+                
+                _db.GamePlayers.Add(gamePlayer);
+                _db.SaveChanges();
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+
             return game;
         }
-        
+
         public void DeleteGame(Int64 gameId)
         {
             var game = _db.Games.Find(gameId);
+
             if (game != null)
             {
-                _db.Games.Remove(game);
-                _db.SaveChanges();
+                using var transaction = _db.Database.BeginTransaction();
+                try
+                {
+                    _db.GamePlayers.RemoveRange(_db.GamePlayers.Where(gp => gp.GameId == gameId));
+                    _db.SaveChanges();
+
+                    _db.Games.Remove(game);
+                    _db.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
+            
         }
     }
 }

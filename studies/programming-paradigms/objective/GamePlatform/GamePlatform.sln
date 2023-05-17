@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementy rozwiązania", "El
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamePlatformUI.Tests", "GamePlatformUI.Tests\GamePlatformUI.Tests.csproj", "{768A5329-9672-41DB-99E4-1D75D1FBA616}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{688B6770-9A92-493C-BFD0-01A761E109D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{688B6770-9A92-493C-BFD0-01A761E109D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{688B6770-9A92-493C-BFD0-01A761E109D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768A5329-9672-41DB-99E4-1D75D1FBA616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768A5329-9672-41DB-99E4-1D75D1FBA616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768A5329-9672-41DB-99E4-1D75D1FBA616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768A5329-9672-41DB-99E4-1D75D1FBA616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

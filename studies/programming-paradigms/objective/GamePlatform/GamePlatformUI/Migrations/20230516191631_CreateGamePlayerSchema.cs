@@ -24,18 +24,8 @@ namespace GamePlatformUI.Migrations
                 {
                     table.PrimaryKey("PK_GamePlayers", x => x.Id);
                     table.ForeignKey("FK_GamePlayers_Games_GameId", x => x.GameId, "Games", "Id");
-                    table.ForeignKey("FK_GamePlayers_Players_PlayerId", x => x.PlayerId, "Players", "Id");
+                    table.ForeignKey("FK_GamePlayers_AspNetUsers_PlayerId", x => x.PlayerId, "AspNetUsers", "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GamePlayers_GameId",
-                table: "GamePlayers",
-                column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GamePlayers_PlayerId",
-                table: "GamePlayers",
-                column: "PlayerId");
         }
 
         /// <inheritdoc />

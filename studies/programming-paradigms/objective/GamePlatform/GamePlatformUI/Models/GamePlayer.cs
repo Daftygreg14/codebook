@@ -13,6 +13,8 @@ namespace GamePlatformUI.Models
         public Int64 GameId { get; set; }
         public Game Game { get; set; }
 
+        public bool IsHost { get; set; }
+
         [ForeignKey("AspNetUsers")]
         public string PlayerId { get; set; }
         public User Player { get; set; }
