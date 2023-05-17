@@ -1,0 +1,15 @@
+@model GamePlatformUI.Presenters.TicTacToePresenter
+
+@{
+    ViewData["Title"] = $"Match ${Model.id}";
+}
+
+<div class="container">
+    @if (!Model.shouldBeStarted())
+    {
+        <form asp-action="Start" asp-route-id="@Model.id">
+            <button type="submit" class="btn btn-primary">Start Game</button>
+        </form>
+    }
+</div>
+

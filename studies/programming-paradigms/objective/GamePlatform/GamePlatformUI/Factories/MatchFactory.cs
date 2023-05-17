@@ -19,7 +19,7 @@ namespace GamePlatformUI.Factories
         private TicTacToeMatch CreateTicTacToeMatch(string hostId)
         {
             TicTacToeMatch match = new TicTacToeMatch();
-            match.RegisterPlayerOne(new Player(hostId, "Winner", "Looser"));
+            match.RegisterPlayerOne(new Player(hostId));
             match.InitializeBoard();
             return match;
         }

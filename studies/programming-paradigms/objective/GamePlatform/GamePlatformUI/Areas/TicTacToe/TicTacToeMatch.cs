@@ -110,16 +110,35 @@ namespace GamePlatformUI.Areas.TicTacToe
         {
             get { return _playerTwo; }
         }
-
+        
         // Serializers
         public string ToJsonString()
         {
-            return JsonSerializer.Serialize(this);
+            var v = new MatchJsonData { 
+                playerOneId = PlayerOne?.playerId, 
+                playerTwoId = PlayerTwo?.playerId,
+                board = _board?.toJsonString(),
+                state = _state.ToString() 
+            };
+            
+            return JsonSerializer.Serialize(v);
         }
 
         public static TicTacToeMatch FromJsonString(string json)
         {
-            return JsonSerializer.Deserialize<TicTacToeMatch>(json);
+            var gameData = JsonSerializer.Deserialize<MatchJsonData>(json);
+            var playerOne = gameData.playerOneId != null ? new Player(gameData.playerOneId) : null;
+            var playerTwo = gameData.playerTwoId != null ? new Player(gameData.playerTwoId) : null;
+            var board = gameData.board != null ? GameBoard.FromJsonString(gameData.board) : null;
+            var state = gameData.state != null ? (GameStateEnum)Enum.Parse(typeof(GameStateEnum), gameData.state) : GameStateEnum.Init;
+
+            return new TicTacToeMatch {
+                _playerOne = playerOne,
+                _playerTwo = playerTwo,
+                _board = board,
+                _state = state
+            };
+
         }
 
         // Helper Functions

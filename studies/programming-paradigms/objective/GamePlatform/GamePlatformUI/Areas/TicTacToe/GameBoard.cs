@@ -1,4 +1,6 @@
-﻿namespace GamePlatformUI.Areas.TicTacToe
+﻿using System.Text.Json;
+
+namespace GamePlatformUI.Areas.TicTacToe
 {
     public class GameBoard
     {
@@ -7,6 +9,58 @@
         public GameBoard()
         {
             initializeBoard(3);
+        }
+
+        public string toJsonString()
+        {
+            int length = _board.GetLength(0);
+            
+            string[][] board = new string[length][];
+
+            for (int i = 0; i < length; i++)
+            {
+                board[i] = new string[length];
+                for (int j = 0; j < length; j++)
+                {
+                    if (_board[i, j] != null)
+                    {
+                        board[i][j] = _board[i, j].playerId;
+                    }
+                    else
+                    {
+                        board[i][j] = "";
+                    }
+                }
+            }
+
+            var v = new { board = board };
+            return JsonSerializer.Serialize(v);
+        }
+
+        public static GameBoard FromJsonString(string jsonString)
+        {
+            var boardData = JsonSerializer.Deserialize<string[][]>(jsonString);
+            int length = boardData.Length;
+            var _board = new Player[length, length];
+
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    if (!string.IsNullOrEmpty(boardData[i][j]))
+                    {
+                        _board[i, j] = new Player(boardData[i][j]);
+                    }
+                    else
+                    {
+                        _board[i, j] = null;
+                    }
+                }
+            }
+
+            return new GameBoard{
+                _board = _board
+            };
         }
 
         public Player GetField(int row, int col)

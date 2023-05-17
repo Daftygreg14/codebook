@@ -5,7 +5,7 @@ using GamePlatformUI.Models;
 using GamePlatformUI.Services;
 using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Presenters;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using GamePlatformUI.Factories;
 
 namespace GamePlatformUI.Controllers
 {
@@ -14,18 +14,21 @@ namespace GamePlatformUI.Controllers
         private readonly IGameRepository _gameRepo;
         private readonly IGameTypeRepository _gameTypeRepo;
         private readonly UserManager<User> _userManager;
+        private readonly GamePresenterFactory _gameFactory;
 
         public GamesController(IGameRepository repo, IGameTypeRepository typeRepo, UserManager<User> userManager)
         {
             _gameRepo = repo;
             _gameTypeRepo = typeRepo;
             _userManager = userManager;
+            _gameFactory = new GamePresenterFactory();
         }
 
         // GET: Games
         public IActionResult Index()
         {
-            var games = _gameRepo.GetGames().Select(game => new GamePresenter(game)).ToList();
+            string currentUserId = _userManager.GetUserId(User);
+            var games = _gameRepo.GetGames().Select(game => _gameFactory.CreateGamePresenter(game, currentUserId)).ToList();
             return View(games);
         }
 

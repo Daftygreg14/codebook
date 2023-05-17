@@ -7,12 +7,41 @@ namespace GamePlatformUI.Presenters
     {
         public string playerOneName, playerTwoName;
         private TicTacToeMatch _match;
-        
-        public TicTacToePresenter(Game game) : base(game)
+        private string? _userId;
+
+        public TicTacToePresenter(Game game, string? userId) : base(game)
         {
+            _userId = userId;
+            Console.WriteLine(game.GameMatchJson);
             _match = TicTacToeMatch.FromJsonString(game.GameMatchJson);
+            Console.WriteLine(_match.ToJsonString());
+
             playerOneName = getPlayerName(game, _match.PlayerOne);
             playerTwoName = getPlayerName(game, _match.PlayerTwo);
+        }
+
+        public override bool canJoin()
+        {
+            bool validState = _match.State == TicTacToeMatch.GameStateEnum.PlayerOneRegistrated;
+            bool validPlayer = _match.PlayerOne.playerId != _userId;
+            return validState && validPlayer;
+        }
+
+        public override bool canStart()
+        {
+            bool validState = _match.State == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated;
+            bool validPlayer = _match.PlayerOne.playerId == _userId;
+            return validState && validPlayer;
+        }
+
+        public override bool canDelete()
+        {
+            return _match.PlayerOne.playerId == _userId;
+        }
+
+        public bool shouldBeStarted()
+        {
+            return _match.State == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated;
         }
         
         public string getBoardField(int row, int col)

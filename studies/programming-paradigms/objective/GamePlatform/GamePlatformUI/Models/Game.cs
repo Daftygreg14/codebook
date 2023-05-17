@@ -24,12 +24,25 @@ namespace GamePlatformUI.Models
         
         public ICollection<GamePlayer>? GamePlayers { get; set; }
 
+        public void StartGame(string userId)
+        {
+            var gamePlayer = GamePlayers.FirstOrDefault(gp => gp.IsHost && gp.PlayerId == userId);
+            if (gamePlayer != null )
+            {
+                var match = TicTacToeMatch.FromJsonString(this.GameMatchJson);
+                match.Start();
+                this.GameState = match.State.ToString();
+                this.GameMatchJson = match.ToJsonString();
+            }
+
+        }
+
         public void JoinGame(string userId)
         {
             if (GamePlayers.FirstOrDefault(gp => gp.PlayerId == userId) == null)
             {
                 var match = TicTacToeMatch.FromJsonString(this.GameMatchJson);
-                match.RegisterPlayerTwo(new Player(userId, "Win", "Win"));
+                match.RegisterPlayerTwo(new Player(userId));
                 this.GameState = match.State.ToString();
                 this.GameMatchJson = match.ToJsonString();
             }
