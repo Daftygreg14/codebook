@@ -44,7 +44,9 @@
                 @Html.DisplayFor(modelItem => item.createdAt)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Details</a>
+                <form asp-action="Join" asp-route-id="@item.id">
+                    <input type="submit" value="Join" class="btn btn-light" />
+                </form>
             </td>
             <td>
                 <form asp-action="Delete" asp-route-id="@item.id">

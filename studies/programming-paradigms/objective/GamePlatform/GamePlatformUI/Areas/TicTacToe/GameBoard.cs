@@ -1,16 +1,12 @@
-﻿using GamePlatformUI.Abstracts;
-
-namespace GamePlatformUI.Areas.TicTacToe
+﻿namespace GamePlatformUI.Areas.TicTacToe
 {
-    internal class GameBoard
+    public class GameBoard
     {
         private Player[,] _board;
 
-        internal GameBoard(int size)
+        public GameBoard()
         {
-            if (size < 3) { throw new ArgumentOutOfRangeException("size"); }
-
-            initializeBoard(size);
+            initializeBoard(3);
         }
 
         public Player GetField(int row, int col)

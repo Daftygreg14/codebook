@@ -1,8 +1,8 @@
-﻿using GamePlatformUI.Abstracts;
+﻿using System.Text.Json;
 
 namespace GamePlatformUI.Areas.TicTacToe
 {
-    public class TicTacToeMatch : Match
+    public class TicTacToeMatch
     {
         public enum GameStateEnum
         {
@@ -14,23 +14,22 @@ namespace GamePlatformUI.Areas.TicTacToe
             Finished
         };
 
-        private Int64 _gameId;
-        private Player _playerOne, _playerTwo;
-        private GameBoard _board;
+        private Player? _playerOne, _playerTwo;
+        private GameBoard? _board;
         private GameStateEnum _state;
 
-        public TicTacToeMatch(Int64 gameId) : base(gameId)
+        public TicTacToeMatch() : base()
         {
             _state = GameStateEnum.Init;
         }
 
         // Game API
-        public override void Start()
+        public void Start()
         {
             _state = GameStateEnum.PlayerOneTurn;
         }
 
-        public void RegisterPlayerOne(HumanPlayer player)
+        public void RegisterPlayerOne(Player player)
         {
             _playerOne = player;
             _state = GameStateEnum.PlayerOneRegistrated;
@@ -42,10 +41,9 @@ namespace GamePlatformUI.Areas.TicTacToe
             _state = GameStateEnum.PlayerTwoRegistrated;
         }
 
-        public void InitializeBoard(int size)
+        public void InitializeBoard()
         {
-            _board = new GameBoard(size);
-            _state = GameStateEnum.PlayerOneTurn;
+            _board = new GameBoard();
         }
 
         public void TakeShot(int row, int col)
@@ -62,7 +60,7 @@ namespace GamePlatformUI.Areas.TicTacToe
             }
         }
 
-        public override void FinishGame()
+        public void FinishGame()
         {
             _state = GameStateEnum.Finished;
         }
@@ -103,7 +101,6 @@ namespace GamePlatformUI.Areas.TicTacToe
 
         // Props
         public GameStateEnum State { get { return _state; } }
-        public Int64 GameId { get { return _gameId; } }
         public Player PlayerOne
         {
             get { return _playerOne; }
@@ -112,6 +109,17 @@ namespace GamePlatformUI.Areas.TicTacToe
         public Player PlayerTwo
         {
             get { return _playerTwo; }
+        }
+
+        // Serializers
+        public string ToJsonString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        public static TicTacToeMatch FromJsonString(string json)
+        {
+            return JsonSerializer.Deserialize<TicTacToeMatch>(json);
         }
 
         // Helper Functions

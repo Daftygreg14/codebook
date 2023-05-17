@@ -1,7 +1,7 @@
 ﻿using GamePlatformUI.Areas.Identity.Data;
+using GamePlatformUI.Areas.TicTacToe;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace GamePlatformUI.Models
 {
@@ -14,7 +14,7 @@ namespace GamePlatformUI.Models
         public string GameType { get; set; }
 
         public string? GameState { get; set; }
-        public string? GameBoard { get; set; }
+        public string? GameMatchJson { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
@@ -23,6 +23,17 @@ namespace GamePlatformUI.Models
         public DateTime UpdatedAt { get; set; }
         
         public ICollection<GamePlayer>? GamePlayers { get; set; }
+
+        public void JoinGame(string userId)
+        {
+            if (GamePlayers.FirstOrDefault(gp => gp.PlayerId == userId) == null)
+            {
+                var match = TicTacToeMatch.FromJsonString(this.GameMatchJson);
+                match.RegisterPlayerTwo(new Player(userId, "Win", "Win"));
+                this.GameState = match.State.ToString();
+                this.GameMatchJson = match.ToJsonString();
+            }
+        }
         
         // [TODO] Refactor to preload Player in single query
         public User? Host()

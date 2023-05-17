@@ -1,17 +1,18 @@
-﻿using GamePlatformUI.Areas.Identity.Data;
-using GamePlatformUI.Models;
+﻿using GamePlatformUI.Models;
 using GamePlatformUI.Services;
+using GamePlatformUI.Factories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace GamePlatformUI.Repository
 {
     public class GameRepository : IGameRepository
     {
         private readonly ApplicationDbContext _db;
+        private readonly MatchFactory matchFactory;
         public GameRepository(ApplicationDbContext db)
         {
             _db = db;
+            matchFactory = new MatchFactory();
         }
 
         public IEnumerable<Game> GetGames()
@@ -26,6 +27,10 @@ namespace GamePlatformUI.Repository
 
         public Game AddGame(Game game, string hostId)
         {
+            var match = matchFactory.CreateGame(game.GameType, hostId);
+            game.GameState = match.State.ToString();
+            game.GameMatchJson = match.ToJsonString();
+
             using var transaction = _db.Database.BeginTransaction();
             try
             {
@@ -51,6 +56,12 @@ namespace GamePlatformUI.Repository
             }
 
             return game;
+        }
+
+        public void UpdateGame(Game game)
+        {
+            _db.Update(game);
+            _db.SaveChanges();
         }
 
         public void DeleteGame(Int64 gameId)

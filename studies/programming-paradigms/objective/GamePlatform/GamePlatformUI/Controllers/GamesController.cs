@@ -48,6 +48,26 @@ namespace GamePlatformUI.Controllers
             return View();
         }
 
+        // POST: Games/Join/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Join(long id)
+        {
+            string currentUserId = _userManager.GetUserId(User);
+            Game game = _gameRepo.GetGame(id);
+
+            if (game != null && currentUserId != null)
+            {
+                Console.WriteLine(game.ToString());
+                game.JoinGame(currentUserId);
+                _gameRepo.UpdateGame(game);
+                return RedirectToAction(nameof(Index));
+            }
+
+            debugModelState();
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Games/Create
         // [TODO] Refactor to create GamePlayer in GameRepository
         [HttpPost]

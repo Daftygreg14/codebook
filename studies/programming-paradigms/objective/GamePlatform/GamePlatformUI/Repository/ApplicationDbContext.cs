@@ -42,16 +42,12 @@ public class ApplicationDbContext : IdentityDbContext<User>
             new GameType
             {
                 Type = "TicTacToe",
-                Available = true,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Available = true
             },
             new GameType
             {
                 Type = "Battleships",
-                Available = false,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Available = false
             }
         );
     }

@@ -54,6 +54,10 @@ app.MapControllerRoute(
     name: "GamesDelete",
     pattern: "Games/Delete/{id}",
     defaults: new { controller = "Games", action = "Delete" });
+app.MapControllerRoute(
+    name: "JoinGame",
+    pattern: "Games/Join/{id}",
+    defaults: new { controller = "Games", action = "Join" });
 
 app.MapRazorPages();
 app.Run();
