@@ -54,7 +54,13 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
 
         public void TakeShot(CellPosition cell)
         {
-            _board?.UpdateField(cell.Row, cell.Col, _getCurrentPlayer());
+            _board.UpdateField(cell.Row, cell.Col, _getCurrentPlayer());
+            Console.WriteLine("HERE \n\r");
+            Console.WriteLine($"{_board.IsFilled()}");
+            Console.WriteLine($"Player One: #{_playerOne.playerId}");
+            Console.WriteLine($"Player Two: #{_playerTwo.playerId}");
+            
+            Console.WriteLine($"{_board.GetWinner()}");
 
             if (_board.IsFilled() || _board.GetWinner() != null)
             {
@@ -76,21 +82,22 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
             return _board.GetSize();
         }
 
-        public Player GetFieldAssigment(int row, int col)
+        public Player? GetFieldAssigment(int row, int col)
         {
             return _board.GetField(row, col);
         }
 
-        public Player GetWinner()
+        public Player? GetWinner()
         {
             return _board.GetWinner();
         }
 
-        public Player GetLoser()
+        public Player? GetLoser()
         {
             if (PlayerOne == GetWinner()) { return PlayerTwo; }
+            if (PlayerTwo == GetWinner()) { return PlayerOne; }
 
-            return PlayerOne;
+            return null;
         }
 
         // Serializers
@@ -100,16 +107,18 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
             {
                 playerOneId = this.PlayerOne?.playerId,
                 playerTwoId = this.PlayerTwo?.playerId,
-                board = this.Board.toJsonString(),
+                board = this.Board.ToJsonString(),
                 state = this.State().ToString()
             };
 
             return JsonSerializer.Serialize(v);
         }
 
-        public static TicTacToeMatch FromJsonString(string jsonString)
+        public new static TicTacToeMatch FromJsonString(string jsonString)
         {
             var gameData = JsonSerializer.Deserialize<MatchJsonData>(jsonString);
+            if (gameData == null) { throw new System.ArgumentException("Invalid JSON string"); }
+            
             var playerOne = gameData.playerOneId != null ? new Player(gameData.playerOneId) : null;
             var playerTwo = gameData.playerTwoId != null ? new Player(gameData.playerTwoId) : null;
             var board = gameData.board != null ? GameBoard.FromJsonString(gameData.board) : null;
@@ -125,7 +134,7 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
 
         }
 
-        // Match Properties
+        // Data Accessors
         public override string State()
         {
             return _state.ToString();
@@ -138,12 +147,12 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
         {
             get { return _board; }
         }
-        public Player PlayerOne
+        public Player? PlayerOne
         {
             get { return _playerOne; }
         }
 
-        public Player PlayerTwo
+        public Player? PlayerTwo
         {
             get { return _playerTwo; }
         }
@@ -152,13 +161,16 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
         // Helper Functions
         private Player _getCurrentPlayer()
         {
-            if (_state == GameStateEnum.PlayerTwoTurn)
+            if (_state == GameStateEnum.PlayerTwoTurn && _playerTwo != null)
             {
                 return _playerTwo;
             }
-            else
+            else if (_state == GameStateEnum.PlayerOneTurn && _playerOne != null)
             {
                 return _playerOne;
+            } else
+            {
+                throw new ApplicationException("Invalid Match State");
             }
         }
         private void _togglePlayer()

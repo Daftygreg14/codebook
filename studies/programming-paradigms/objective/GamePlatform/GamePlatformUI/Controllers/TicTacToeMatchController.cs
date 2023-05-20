@@ -5,6 +5,7 @@ using GamePlatformUI.Areas.Identity.Data;
 using GamePlatformUI.Services;
 using GamePlatformUI.Factories;
 using GamePlatformUI.Areas.Games.TicTacToe;
+using NuGet.Protocol;
 
 namespace GamePlatformUI.Controllers
 {
@@ -23,8 +24,21 @@ namespace GamePlatformUI.Controllers
             _matchFactory = new MatchFactory();
         }
 
+        // GET: Match/Edit/5
+        public IActionResult Details(long id)
+        {
+            var game = _gameRepo.GetGame(id);
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (game == null) { return NotFound(); }
+            if (currentUserId == null) { return NotFound(); }
+
+            var presenter = _presenterFactory.CreateGamePresenter(game, currentUserId);
+            return View(presenter);
+        }
+        
         // POST: Match/Start/5
-        public async Task<IActionResult> Start(long id)
+        public IActionResult Start(long id)
         {
             var game = _gameRepo.GetGame(id);
             var currentUserId = _userManager.GetUserId(User);
@@ -41,7 +55,7 @@ namespace GamePlatformUI.Controllers
         }
 
         // GET: Match/Edit/5
-        public async Task<IActionResult> Edit(long id)
+        public IActionResult Edit(long id)
         {
             var game = _gameRepo.GetGame(id);
             var currentUserId = _userManager.GetUserId(User);
@@ -56,7 +70,7 @@ namespace GamePlatformUI.Controllers
         // POST: Match/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Row,Col")] CellPosition cell)
+        public IActionResult Edit(long id, [Bind("Row,Col")] CellPosition cell)
         {
             var game = _gameRepo.GetGame(id);
             var currentUserId = _userManager.GetUserId(User);
@@ -65,6 +79,8 @@ namespace GamePlatformUI.Controllers
             if (currentUserId == null) { return NotFound(); }
 
             TicTacToeMatch match = _matchFactory.LoadMatch(game) as TicTacToeMatch;
+            Console.WriteLine(cell.ToJson());
+            
             match.TakeShot(cell);
             game.StoreMatch(match);
             _gameRepo.UpdateGame(game);

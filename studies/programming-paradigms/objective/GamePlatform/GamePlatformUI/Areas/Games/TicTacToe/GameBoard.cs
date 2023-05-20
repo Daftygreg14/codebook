@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NuGet.Protocol;
+using System.Drawing;
 using System.Text.Json;
 
 namespace GamePlatformUI.Areas.Games.TicTacToe
@@ -12,6 +14,7 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
             _board = new Player[3, 3];
         }
 
+        // Serialization API
         public string ToJsonString()
         {
             int length = _board.GetLength(0);
@@ -62,6 +65,7 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
             return new GameBoard { _board = board };
         }
 
+        // Game API
         public Player GetField(int row, int col)
         {
             return _board[row, col];
@@ -84,14 +88,20 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
         public bool IsFilled()
         {
             bool isFilled = true;
+            int size = GetSize();
 
-            for (int row = 0; row < GetSize(); row++)
+            for (int row = 0; row < size; row++)
             {
-                for (int col = 0; col < GetSize(); col++)
+                for (int col = 0; col < size; col++)
                 {
-                    if (GetField(row, col) != null) { isFilled = false; break; }
+                    if (GetField(row, col) == null) 
+                    { 
+                        isFilled = false;
+                        break; 
+                    }
                 }
             }
+
             return isFilled;
         }
 
@@ -167,7 +177,7 @@ namespace GamePlatformUI.Areas.Games.TicTacToe
         private bool _isWinnerSet(Player?[] values)
         {
             if (values[0] == null) { return false; };
-            if (values.Distinct().Count() == 1) { return true; };
+            if (values.Select(val => val?.playerId).Distinct().Count() == 1) { return true; };
 
             return false;
         }

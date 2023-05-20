@@ -32,37 +32,41 @@
         @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.type)
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
              <td>
-                @Html.DisplayFor(modelItem => item.state)
+                @Html.DisplayFor(modelItem => item.GameState)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.hostName)
+                @Html.DisplayFor(modelItem => item.HostName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.createdAt)
+                @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
-                @if (item.canStart())
+                @if (item.CanStart())
                 {
-                    <form asp-action="Start" asp-controller="@item.controllerName()" asp-route-id="@item.id">
+                    <form asp-action="Start" asp-controller="@item.ControllerName()" asp-route-id="@item.id">
                         <input type="submit" value="Start" class="btn btn-primary" />
                     </form>
                 }
-                else if (item.canJoin())
+                else if (item.CanJoin())
                 {
                     <form asp-action="Join" asp-route-id="@item.id">
                         <input type="submit" value="Join" class="btn btn-primary" />
                     </form>
                 }
-                else if (item.canPlay())
+                else if (item.CanPlay())
                 {
-                    <a asp-action="Edit" asp-controller="@item.controllerName()" asp-route-id="@item.id" class="btn btn-primary">Play</a>
+                    <a asp-action="Edit" asp-controller="@item.ControllerName()" asp-route-id="@item.id" class="btn btn-primary">Play</a>
+                }
+                else
+                {
+                    <a asp-action="Details" asp-controller="@item.ControllerName()" asp-route-id="@item.id" class="btn btn-info">Details</a>
                 }
             </td>
             <td>
-                @if (item.canDelete())
+                @if (item.CanDelete())
                 {
                     <form asp-action="Delete" asp-route-id="@item.id">
                         <input type="submit" value="Delete" class="btn btn-danger" />

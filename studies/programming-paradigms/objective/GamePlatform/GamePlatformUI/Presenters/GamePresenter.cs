@@ -4,42 +4,35 @@ namespace GamePlatformUI.Presenters
 {
     public abstract class GamePresenter
     {
-        public Int64 id;
-        public string type, state, hostName;
-        public string createdAt, updatedAt;
+        public readonly Int64 id;
+        private string type, hostName;
+        private string createdAt;
+        protected Game _game;
         public GamePresenter(Game game)
-        {            
+        {
             id = game.Id;
-            type = game.GameType;
-            state = getGameState(game);
-            hostName = getHostName(game);
-            createdAt = game.CreatedAt.ToShortDateString();
-            updatedAt = game.UpdatedAt.ToShortDateString();
+            _game = game;
         }
+        public abstract string GameState { get; }
+        public string HostName { get { return getHostName(); } }
+        public string Type { get { return _game.GameType; } }
+        public string CreatedAt { get { return _game.CreatedAt.ToShortDateString(); } }
 
-        public abstract bool canStart();
+        public abstract bool CanStart();
 
-        public abstract bool canJoin();
+        public abstract bool CanJoin();
 
-        public abstract bool canPlay();
+        public abstract bool CanPlay();
 
-        public abstract bool canDelete();
+        public abstract bool CanDelete();
 
-        public abstract string controllerName();
+        public abstract string ControllerName();
 
-        private string getGameState(Game game)
+        private string getHostName()
         {
-            if (game.GameState != null)
+            if (_game?.Host() != null && _game.Host()?.DisplayName() != null)
             {
-                return game.GameState;
-            }
-            return "unknown";
-        }
-        private string getHostName(Game game)
-        {
-            if (game.Host() != null)
-            {
-                return game.Host().DisplayName();
+                return _game.Host().DisplayName();
             }
             return string.Empty;
         }
