@@ -46,7 +46,7 @@
             <td>
                 @if (item.canStart())
                 {
-                    <form asp-action="Start" asp-controller="Match" asp-route-id="@item.id">
+                    <form asp-action="Start" asp-controller="@item.controllerName()" asp-route-id="@item.id">
                         <input type="submit" value="Start" class="btn btn-primary" />
                     </form>
                 }
@@ -55,7 +55,11 @@
                     <form asp-action="Join" asp-route-id="@item.id">
                         <input type="submit" value="Join" class="btn btn-primary" />
                     </form>
-                } 
+                }
+                else if (item.canPlay())
+                {
+                    <a asp-action="Edit" asp-controller="@item.controllerName()" asp-route-id="@item.id" class="btn btn-primary">Play</a>
+                }
             </td>
             <td>
                 @if (item.canDelete())

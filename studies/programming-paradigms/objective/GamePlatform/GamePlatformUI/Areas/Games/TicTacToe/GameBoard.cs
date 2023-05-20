@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Drawing;
+using System.Text.Json;
 
-namespace GamePlatformUI.Areas.TicTacToe
+namespace GamePlatformUI.Areas.Games.TicTacToe
 {
     public class GameBoard
     {
@@ -8,13 +9,12 @@ namespace GamePlatformUI.Areas.TicTacToe
 
         public GameBoard()
         {
-            initializeBoard(3);
+            _board = new Player[3, 3];
         }
 
-        public string toJsonString()
+        public string ToJsonString()
         {
             int length = _board.GetLength(0);
-            
             string[][] board = new string[length][];
 
             for (int i = 0; i < length; i++)
@@ -33,15 +33,16 @@ namespace GamePlatformUI.Areas.TicTacToe
                 }
             }
 
-            var v = new { board = board };
-            return JsonSerializer.Serialize(v);
+            return System.Text.Json.JsonSerializer.Serialize(board);
         }
-
+        
         public static GameBoard FromJsonString(string jsonString)
         {
             var boardData = JsonSerializer.Deserialize<string[][]>(jsonString);
+            if (boardData == null) { throw new ArgumentException("Invalid JSON string"); }
+            
             int length = boardData.Length;
-            var _board = new Player[length, length];
+            var board = new Player?[length, length];
 
             for (int i = 0; i < length; i++)
             {
@@ -49,18 +50,16 @@ namespace GamePlatformUI.Areas.TicTacToe
                 {
                     if (!string.IsNullOrEmpty(boardData[i][j]))
                     {
-                        _board[i, j] = new Player(boardData[i][j]);
+                        board[i, j] = new Player(boardData[i][j]);
                     }
                     else
                     {
-                        _board[i, j] = null;
+                        board[i, j] = null;
                     }
                 }
             }
 
-            return new GameBoard{
-                _board = _board
-            };
+            return new GameBoard { _board = board };
         }
 
         public Player GetField(int row, int col)
@@ -96,80 +95,76 @@ namespace GamePlatformUI.Areas.TicTacToe
             return isFilled;
         }
 
-        public Player GetWinner()
+        public Player? GetWinner()
         {
-            Player player = null;
-            if (maybeColumnWinner() != null)
+            Player? player = null;
+            if (_maybeColumnWinner() != null)
             {
-                player = maybeColumnWinner();
+                player = _maybeColumnWinner();
             }
-            else if (maybeRowWinner() != null)
+            else if (_maybeRowWinner() != null)
             {
-                player = maybeRowWinner();
+                player = _maybeRowWinner();
             }
-            else if (maybeDiagonalWinner() != null)
+            else if (_maybeDiagonalWinner() != null)
             {
-                player = maybeDiagonalWinner();
+                player = _maybeDiagonalWinner();
             };
 
             return player;
         }
 
-        private Player maybeRowWinner()
+        private Player? _maybeRowWinner()
         {
-            Player player = null;
+            Player? player = null;
             for (int rowNum = 0; rowNum < GetSize(); rowNum++)
             {
-                Player[] row = getRow(rowNum);
-                if (isWinnerSet(row)) { player = row[0]; break; }
+                Player?[] row = _getRow(rowNum);
+                if (_isWinnerSet(row)) { player = row[0]; break; }
             }
 
             return player;
         }
 
-        private Player maybeColumnWinner()
+        private Player? _maybeColumnWinner()
         {
-            Player player = null;
+            Player? player = null;
             for (int colNum = 0; colNum < GetSize(); colNum++)
             {
-                Player[] col = getColumn(colNum);
-                if (isWinnerSet(col)) { player = col[0]; break; }
+                Player?[] col = _getColumn(colNum);
+                if (_isWinnerSet(col)) { player = col[0]; break; }
             }
 
             return player;
         }
 
-        private Player maybeDiagonalWinner()
+        private Player? _maybeDiagonalWinner()
         {
-            Player[] diagonalOne = getDiagonal(Enumerable.Range(0, GetSize()));
-            if (isWinnerSet(diagonalOne)) { return diagonalOne[0]; }
+            Player?[] diagonalOne = _getDiagonal(Enumerable.Range(0, GetSize()));
+            if (_isWinnerSet(diagonalOne)) { return diagonalOne[0]; }
 
-            Player[] diagonalTwo = getDiagonal(Enumerable.Range(0, GetSize()).Reverse());
-            if (isWinnerSet(diagonalTwo)) { return diagonalTwo[0]; }
+            Player?[] diagonalTwo = _getDiagonal(Enumerable.Range(0, GetSize()).Reverse());
+            if (_isWinnerSet(diagonalTwo)) { return diagonalTwo[0]; }
 
             return null;
         }
 
-        private void initializeBoard(int size)
-        {
-            _board = new Player[size, size];
-        }
-        private Player[] getColumn(int columnNumber)
+        private Player?[] _getColumn(int columnNumber)
         {
             return Enumerable.Range(0, GetSize()).Select(x => _board[x, columnNumber]).ToArray();
         }
 
-        private Player[] getRow(int rowNumber)
+        private Player?[] _getRow(int rowNumber)
         {
             return Enumerable.Range(0, GetSize()).Select(x => _board[rowNumber, x]).ToArray();
         }
 
-        private Player[] getDiagonal(IEnumerable<int> range)
+        private Player?[] _getDiagonal(IEnumerable<int> range)
         {
             return range.Select(x => _board[x, x]).ToArray();
         }
 
-        private bool isWinnerSet(Player[] values)
+        private bool _isWinnerSet(Player?[] values)
         {
             if (values[0] == null) { return false; };
             if (values.Distinct().Count() == 1) { return true; };

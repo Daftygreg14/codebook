@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using GamePlatformUI.Models;
 using GamePlatformUI.Services;
 using GamePlatformUI.Areas.Identity.Data;
-using GamePlatformUI.Presenters;
 using GamePlatformUI.Factories;
 
 namespace GamePlatformUI.Controllers
@@ -15,6 +14,7 @@ namespace GamePlatformUI.Controllers
         private readonly IGameTypeRepository _gameTypeRepo;
         private readonly UserManager<User> _userManager;
         private readonly GamePresenterFactory _gameFactory;
+        private readonly MatchFactory _matchFactory;
 
         public GamesController(IGameRepository repo, IGameTypeRepository typeRepo, UserManager<User> userManager)
         {
@@ -22,6 +22,7 @@ namespace GamePlatformUI.Controllers
             _gameTypeRepo = typeRepo;
             _userManager = userManager;
             _gameFactory = new GamePresenterFactory();
+            _matchFactory = new MatchFactory();
         }
 
         // GET: Games
@@ -51,26 +52,6 @@ namespace GamePlatformUI.Controllers
             return View();
         }
 
-        // POST: Games/Join/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Join(long id)
-        {
-            string currentUserId = _userManager.GetUserId(User);
-            Game game = _gameRepo.GetGame(id);
-
-            if (game != null && currentUserId != null)
-            {
-                Console.WriteLine(game.ToString());
-                game.JoinGame(currentUserId);
-                _gameRepo.UpdateGame(game);
-                return RedirectToAction(nameof(Index));
-            }
-
-            debugModelState();
-            return RedirectToAction(nameof(Index));
-        }
-
         // POST: Games/Create
         // [TODO] Refactor to create GamePlayer in GameRepository
         [HttpPost]
@@ -81,12 +62,35 @@ namespace GamePlatformUI.Controllers
 
             if (ModelState.IsValid && currentUserId != null)
             {
+                var match = _matchFactory.CreateMatch(game, currentUserId);
+                game.StoreMatch(match);
                 _gameRepo.AddGame(game, currentUserId);
                 return RedirectToAction(nameof(Index));
             }
             debugModelState();
             ViewBag.GameTypes = _gameTypeRepo.GetAvailableGameTypes().ToList();
             return View(game);
+        }
+
+        // POST: Games/Join/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Join(long id)
+        {
+            string currentUserId = _userManager.GetUserId(User);
+            Game game = _gameRepo.GetGame(id);
+
+            if (game != null && currentUserId != null)
+            {
+                var match = _matchFactory.LoadMatch(game);
+                match.JoinGame(game, currentUserId);
+                game.StoreMatch(match);
+                _gameRepo.UpdateGame(game);
+                return RedirectToAction(nameof(Index));
+            }
+
+            debugModelState();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Games/Delete/5

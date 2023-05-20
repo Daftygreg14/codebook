@@ -1,5 +1,4 @@
-﻿using GamePlatformUI.Areas.TicTacToe;
-using GamePlatformUI.Models;
+﻿using GamePlatformUI.Models;
 using GamePlatformUI.Presenters;
 
 namespace GamePlatformUI.Factories

@@ -1,6 +1,5 @@
 ﻿using GamePlatformUI.Models;
 using GamePlatformUI.Services;
-using GamePlatformUI.Factories;
 using Microsoft.EntityFrameworkCore;
 
 namespace GamePlatformUI.Repository
@@ -8,11 +7,9 @@ namespace GamePlatformUI.Repository
     public class GameRepository : IGameRepository
     {
         private readonly ApplicationDbContext _db;
-        private readonly MatchFactory matchFactory;
         public GameRepository(ApplicationDbContext db)
         {
             _db = db;
-            matchFactory = new MatchFactory();
         }
 
         public IEnumerable<Game> GetGames()
@@ -27,10 +24,6 @@ namespace GamePlatformUI.Repository
 
         public Game AddGame(Game game, string hostId)
         {
-            var match = matchFactory.CreateGame(game.GameType, hostId);
-            game.GameState = match.State.ToString();
-            game.GameMatchJson = match.ToJsonString();
-
             using var transaction = _db.Database.BeginTransaction();
             try
             {

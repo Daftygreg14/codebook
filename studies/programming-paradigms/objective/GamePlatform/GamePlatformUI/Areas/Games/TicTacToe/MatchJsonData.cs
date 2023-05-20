@@ -1,4 +1,4 @@
-﻿namespace GamePlatformUI.Areas.TicTacToe
+﻿namespace GamePlatformUI.Areas.Games.TicTacToe
 {
     public class MatchJsonData
     {

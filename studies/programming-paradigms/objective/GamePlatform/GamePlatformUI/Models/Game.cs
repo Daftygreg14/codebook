@@ -1,5 +1,5 @@
-﻿using GamePlatformUI.Areas.Identity.Data;
-using GamePlatformUI.Areas.TicTacToe;
+﻿using GamePlatformUI.Areas.Games;
+using GamePlatformUI.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,30 +24,12 @@ namespace GamePlatformUI.Models
         
         public ICollection<GamePlayer>? GamePlayers { get; set; }
 
-        public void StartGame(string userId)
+        public void StoreMatch(Match match)
         {
-            var gamePlayer = GamePlayers.FirstOrDefault(gp => gp.IsHost && gp.PlayerId == userId);
-            if (gamePlayer != null )
-            {
-                var match = TicTacToeMatch.FromJsonString(this.GameMatchJson);
-                match.Start();
-                this.GameState = match.State.ToString();
-                this.GameMatchJson = match.ToJsonString();
-            }
-
+            GameMatchJson = match.ToJsonString();
+            GameState = match.State();
         }
 
-        public void JoinGame(string userId)
-        {
-            if (GamePlayers.FirstOrDefault(gp => gp.PlayerId == userId) == null)
-            {
-                var match = TicTacToeMatch.FromJsonString(this.GameMatchJson);
-                match.RegisterPlayerTwo(new Player(userId));
-                this.GameState = match.State.ToString();
-                this.GameMatchJson = match.ToJsonString();
-            }
-        }
-        
         // [TODO] Refactor to preload Player in single query
         public User? Host()
         {

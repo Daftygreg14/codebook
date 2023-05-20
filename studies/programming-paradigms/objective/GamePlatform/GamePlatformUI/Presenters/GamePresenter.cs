@@ -21,7 +21,11 @@ namespace GamePlatformUI.Presenters
 
         public abstract bool canJoin();
 
+        public abstract bool canPlay();
+
         public abstract bool canDelete();
+
+        public abstract string controllerName();
 
         private string getGameState(Game game)
         {

@@ -1,71 +1,104 @@
-﻿using GamePlatformUI.Areas.TicTacToe;
+﻿using GamePlatformUI.Areas.Games.TicTacToe;
 using GamePlatformUI.Models;
 
 namespace GamePlatformUI.Presenters
 {
     public class TicTacToePresenter : GamePresenter
     {
-        public string playerOneName, playerTwoName;
+        public readonly string playerOneName, playerTwoName;
         private TicTacToeMatch _match;
         private string? _userId;
 
         public TicTacToePresenter(Game game, string? userId) : base(game)
         {
             _userId = userId;
-            Console.WriteLine(game.GameMatchJson);
             _match = TicTacToeMatch.FromJsonString(game.GameMatchJson);
-            Console.WriteLine(_match.ToJsonString());
-
-            playerOneName = getPlayerName(game, _match.PlayerOne);
-            playerTwoName = getPlayerName(game, _match.PlayerTwo);
+            playerOneName = _getPlayerName(game, _match.PlayerOne);
+            playerTwoName = _getPlayerName(game, _match.PlayerTwo);
         }
-
+        
         public override bool canJoin()
         {
-            bool validState = _match.State == TicTacToeMatch.GameStateEnum.PlayerOneRegistrated;
+            bool validState = _match.State() == TicTacToeMatch.GameStateEnum.PlayerOneRegistrated.ToString();
             bool validPlayer = _match.PlayerOne.playerId != _userId;
-            return validState && validPlayer;
+            bool validUser = _userId != null;
+            return validUser && validState && validPlayer;
         }
 
         public override bool canStart()
         {
-            bool validState = _match.State == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated;
+            bool validState = _match.State() == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated.ToString();
             bool validPlayer = _match.PlayerOne.playerId == _userId;
-            return validState && validPlayer;
+            bool validUser = _userId != null;
+            return validUser && validState && validPlayer;
         }
 
         public override bool canDelete()
         {
-            return _match.PlayerOne.playerId == _userId;
+            bool validUser = _userId != null;
+            bool validPlayer = _match.PlayerOne.playerId == _userId;
+            return validUser && validPlayer;
+        }
+        
+        public override bool canPlay()
+        {
+            bool validUser = _userId != null;
+            bool validPlayerOne = _match.PlayerOne?.playerId == _userId;
+            bool validPlayerTwo = _match.PlayerTwo?.playerId == _userId;
+            bool validState = _activeMatch();
+            return validUser && validState && (validPlayerOne || validPlayerTwo);
+        }
+
+        public override string controllerName()
+        {
+            return "TicTacToeMatch";
+        }
+        public bool playerTurn()
+        {
+            bool validUser = _userId != null;
+            bool playerTurn = _match.CurrentPlayerId() == _userId;
+            bool validState = _activeMatch();
+
+            return validUser && playerTurn && validState;
+        }
+            
+        public bool activeField(int row, int col)
+        {
+            bool validUser = _userId != null;
+            bool emptyField = _match.GetFieldAssigment(row, col) == null;
+            bool validState = _activeMatch();
+            return validUser && validState && emptyField;
         }
 
         public bool shouldBeStarted()
         {
-            return _match.State == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated;
+            return _match.State() == TicTacToeMatch.GameStateEnum.PlayerTwoRegistrated.ToString();
         }
         
         public string getBoardField(int row, int col)
         {
             var player = _match.GetFieldAssigment(row, col);
-            return getFieldSign(player);
+            if (player == null) {  return ""; }
+            if (player.playerId == _match.PlayerOne.playerId) { return "X"; }
+            return "O";
         }
 
-        private string getFieldSign(Player? player)
+        private bool _activeMatch()
         {
-            if (player == _match.PlayerOne) { return "X"; };
-            if (player == _match.PlayerTwo) { return "O"; };
+            bool playerOneTurn = _match.State() == TicTacToeMatch.GameStateEnum.PlayerOneTurn.ToString();
+            bool playerTwoTurn = _match.State() == TicTacToeMatch.GameStateEnum.PlayerTwoTurn.ToString();
 
-            return "";
+            return playerOneTurn || playerTwoTurn;
         }
 
-        private string getPlayerName(Game game, Player? player)
+        private string _getPlayerName(Game game, Player? player)
         {
             if(player == null)
             {
                 return "Not Registrated";
             }
 
-            var gamePlayer = game.GamePlayers.Where(gp => gp.PlayerId == player.playerId).First();
+            var gamePlayer = game.GamePlayers.FirstOrDefault(gp => gp.PlayerId == player.playerId);
             
             if(gamePlayer == null)
             {

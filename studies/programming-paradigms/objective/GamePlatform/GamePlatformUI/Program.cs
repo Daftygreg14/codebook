@@ -58,6 +58,11 @@ app.MapControllerRoute(
     name: "JoinGame",
     pattern: "Games/Join/{id}",
     defaults: new { controller = "Games", action = "Join" });
+// Match routes
+app.MapControllerRoute(
+    name: "MatchPlay",
+    pattern: "Games/TicTacToe",
+    defaults: new { controller = "TicTacToeMatch", action = "Edit" });
 
 app.MapRazorPages();
 app.Run();
