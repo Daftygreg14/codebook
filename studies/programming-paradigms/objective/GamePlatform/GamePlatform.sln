@@ -7,8 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamePlatformUI", "GamePlatf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementy rozwiązania", "Elementy rozwiązania", "{ED084F99-BAFF-4E2C-97AA-E27FF20C7733}"
 	ProjectSection(SolutionItems) = preProject
+		DesignPatterns.md = DesignPatterns.md
 		docker-compose.yaml = docker-compose.yaml
 		Readme.md = Readme.md
+		zaliczenie.txt = zaliczenie.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamePlatformUI.Tests", "GamePlatformUI.Tests\GamePlatformUI.Tests.csproj", "{768A5329-9672-41DB-99E4-1D75D1FBA616}"

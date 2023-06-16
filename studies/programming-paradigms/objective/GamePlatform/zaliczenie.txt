@@ -1,0 +1,42 @@
+Zasady zaliczenia.
+
+UWAGA zmiana na oceny z przedzia³u 3-4 (dostateczny-dobry) piszemy test zaliczeniowy 17 czerwca (wiedza z prezentacji dodanych w materia³ach 15 pytañ, test a,b,c,d, zalicza 8 punktów). 
+Na wy¿sze oceny trzeba napisaæ aplikacjê.
+
+Mo¿na napisaæ test i oddaæ aplikacjê.
+Jeœli ktoœ napisze tylko aplikacjê i dostanie ni¿sz¹ ocenê ni¿ 4,5 to te¿ zaliczy przedmiot.
+
+Program zaliczeniowy. Oddajemy na ostatnich zajêciach. Prezentujemy samodzielnie online. Dodajemy wszystko w serwisie github online.
+Co ma zawieraæ:
+1. .NET Core MVC czyli architektura trój warstwowa 1 pkt. [x]
+2. Przedstawiaæ spójn¹ koncepcjê. Np aplikacja typu TODO lista albo kolekcja znaczków. 1 pkt. [x]
+3. Musi wykorzystywaæ Entity Framework do po³¹czenia z baz¹ danych. 2 pkt. [x]
+4. Musi obs³ugiwaæ wszystkie operacje CRUDOWE (dodaj, usuñ, edytuj, wyœwietl pojedyñczy element, wyœwietl kolekcjê)4 pkt. [x]
+5. Dodanie repozytorium (np. FilmManager) czyli warstwy poœredniej miêdzy baz¹ danych a kontrolerem. 2 pkt. [x]
+6. Widoki do wszystkich operacji crudowych. 2 pkt. [x]
+7. Musi byæ przygotowany przyjazny, intuicyjny, schludny interfejs u¿ytkownika. Proszê wykorzystaæ framework css Bootstrap. 2 pkt. [x]
+8. Powinien u¿ywaæ dependency injection. 2 pkt. [x]
+9. Proszê opisaæ wzorce projektowe i napisaæ jakie maj¹ zastosowanie w .NET Core: 2 pkt. 
+
+Kompozyt
+Obserwator
+Strategia
+Metoda Wytwórcza
+Dekorator
+
+10. 80% obecnoœci 2 pkt.
+11. Zadania domowe podstawy programowania w .NET 3 pkt. 
+
+Do zdobycia jest 28 pkt.
+
+5 19-20 pkt. lub wiêcej.
+4,5 17-18 pkt.
+4 15-16 pkt.
+3,5 13-14 pkt.
+3 10-12 pkt. 
+
+Co najmniej 9 pkt. musi byæ zdobyte za zadania 1-8. I ¿eby punkty siê liczy³y musi dzia³aæ poprzedni punkt. Nie mo¿na zrobiæ widoków do nie dzia³aj¹cj logiki.
+
+Dodajemy do repozytorium dla chêtnych plik z opisem wybranych powy¿ej wzorców projektowych.
+Dodajemy plik z linkiem do pracy dowowej w github lub dodane pliki pracy domowej w osobnym folderze.
+Dodajemy oœwiadczenie o liczbie obecnoœci.
