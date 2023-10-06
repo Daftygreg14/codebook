@@ -1,0 +1,48 @@
+@model GamePlatformUI.Presenters.TicTacToePresenter
+
+@{
+    ViewData["Title"] = $"Match ${Model.id}";
+}
+
+<div class="container">
+    @if (Model.shouldBeStarted())
+    {
+        <form asp-action="Start" asp-route-id="@Model.id">
+            <button type="submit" class="btn btn-primary">Start Game</button>
+        </form>
+    }
+    else
+    {
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="container">
+                @for (var i = 0; i < 3; i++)
+                {
+                    <div class="row">
+                        @for (var j = 0; j < 3; j++)
+                        {
+                            <div class="col-4 border border-dark text-center">
+                                @if (Model.activeField(i, j))
+                                {
+                                    <form asp-action="Edit" asp-controller="@Model.ControllerName()" method="post">
+                                        <input type="hidden" name="row" value="@i" />
+                                        <input type="hidden" name="col" value="@j" />
+                                        <button type="submit" class="tic-tac-toe-cell text-center" @(Model.playerTurn() ? "" : "disabled")></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="tic-tac-toe-cell text-center">
+                                        @Model.getBoardField(i, j)
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-3"></div>
+    }
+</div>
+

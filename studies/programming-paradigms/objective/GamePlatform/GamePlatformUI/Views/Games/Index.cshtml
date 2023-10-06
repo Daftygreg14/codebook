@@ -1,0 +1,79 @@
+@model IEnumerable<GamePlatformUI.Presenters.GamePresenter>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Game Type")
+            </th>
+            <th>
+                @Html.DisplayName("Game State")
+            </th>
+            <th>
+                @Html.DisplayName("Host Name")
+            </th>
+            <th>
+                @Html.DisplayName("Created At")
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.GameState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HostName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @if (item.CanStart())
+                {
+                    <form asp-action="Start" asp-controller="@item.ControllerName()" asp-route-id="@item.id">
+                        <input type="submit" value="Start" class="btn btn-primary" />
+                    </form>
+                }
+                else if (item.CanJoin())
+                {
+                    <form asp-action="Join" asp-route-id="@item.id">
+                        <input type="submit" value="Join" class="btn btn-primary" />
+                    </form>
+                }
+                else if (item.CanPlay())
+                {
+                    <a asp-action="Edit" asp-controller="@item.ControllerName()" asp-route-id="@item.id" class="btn btn-primary">Play</a>
+                }
+                else
+                {
+                    <a asp-action="Details" asp-controller="@item.ControllerName()" asp-route-id="@item.id" class="btn btn-info">Details</a>
+                }
+            </td>
+            <td>
+                @if (item.CanDelete())
+                {
+                    <form asp-action="Delete" asp-route-id="@item.id">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

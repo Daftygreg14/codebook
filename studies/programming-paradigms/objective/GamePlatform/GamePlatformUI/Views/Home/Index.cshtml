@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>Welcome back, @User.Identity.Name!</p>
+        <a class="btn btn-primary" href="@Url.Action("Create", "Games")">Create New Game</a>
+        <a class="btn btn-secondary" href="@Url.Action("Index", "Games")">Select Game</a>
+    }
+    else
+    {
+        <p>Please <a href="@Url.Action("Login", "Account")">log in</a> to continue.</p>
+    }
+</div>
